@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)https://marketing.figma.com/?referrer=https%3A%2F%2Fwww.behance.net%2F&temp-cache-bust=1&gpc_code=bd_e -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Figma</title>
+  <meta http-equiv="origin-trial" content="A+xK4jmZTgh1KBVry/UZKUE3h6Dr9HPPioFS4KNCzify+KEoOii7z/goKS2zgbAOwhpZ1GZllpdz7XviivJM9gcAAACFeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiQXR0cmlidXRpb25SZXBvcnRpbmdDcm9zc0FwcFdlYiIsImV4cGlyeSI6MTcwNzI2Mzk5OSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><link id="sa-css" rel="stylesheet" type="text/css" href="./sa.css" media="all"></head>
+  <body>
+    <script async="" src="./insight.old.min.js.download"></script><script async="" src="./events.js.download"></script><script src="./871885529854177" async=""></script><script async="" src="./fbevents.js.download"></script><script type="text/javascript" async="" src="./uwt.js.download"></script><script type="text/javascript" async="" src="./insight.min.js.download"></script><script async="" src="./gtm.js.download"></script><script>
+      (function(){
+        const clusterName = `prod`
+
+        /**
+         * Grab referrer from query params and attempt to set on document. If we have a correct
+         * referrer reference then setup the trackers, otherwise, we need to reload.
+         */
+        const ref_match = RegExp('[?&]referrer=([^&]*)').exec(window.location.search);
+        const fakeref = ref_match ? decodeURIComponent(ref_match[1]) : "";
+        try {
+            if ('Object' in window && 'defineProperty' in Object){
+              Object.defineProperty(document,'referrer',{'get':function(){ return fakeref;}});
+            } else {
+              window.document.__defineGetter__('referrer', function () { return fakeref;});
+            }
+        } catch(e){}
+
+        debug('ref_match', ref_match);
+        debug('fakeref', fakeref);
+        // If we couldn't override the referrer, then replace the location and reload.
+        if (document.referrer !== fakeref && document.referrer !== "") {
+          location.replace(location.href);
+        } else {
+          setupEventListening();
+          addGtmIfNeeded()
+
+          // Notify parent (gatbsy site) that marketing site is ready to receive events
+          parent.postMessage({ type: 'ready' }, 'https://www.figma.com')
+        }
+
+        /**
+         * Listens for postMessages
+         */
+        function setupEventListening() {
+          debug('setting up event listening');
+          // GTM dataLayer and status.
+          window.dataLayer = [];
+          window.gtmAdded = false;
+
+          // Listen for messages from segment.ts.
+          window.addEventListener('message', function(event){
+            debug('postMessage received', event);
+
+            const originUrl = new URL(event.origin)
+            const isTrustedOrigin = /^[a-z]+\.figma\.com(:8080)?$/.test(originUrl.host) &&
+              (clusterName !== 'local' && originUrl.protocol === 'https:')
+
+            if (isTrustedOrigin) {
+              const { id, requestCallback, dataLayer } = event.data || {};
+              debug('dataLayer', dataLayer);
+
+              // We're listening to all messages and we should ignore any non-GTM related.
+              if (!dataLayer) return
+
+              let dataLayerCopy = deepClone(dataLayer)
+              if (requestCallback) {
+                dataLayerCopy.eventCallback = function() {
+                  parent.postMessage({ id, type: 'eventCallback' }, event.origin)
+                }
+                dataLayerCopy.eventTimeout = event.data.eventTimeout || 1000
+              }
+
+              // Let each tag manager handle the event.
+              handleGoogleTagManager(dataLayerCopy);
+            } else {
+              debug('Untrusted origin, no trackers activated');
+            }
+          });
+        }
+
+        function addGtmIfNeeded() {
+          const gtm_id = 'GTM-TZZ2PWQ';
+          if (!window.gtmAdded) {
+            window.gtmAdded = true;
+            debug('GTM - loading script');
+            (function (w, d, s, l, i) {
+              w[l] = w[l] || [];
+              w[l].push({
+                'gtm.start':
+                  new Date().getTime(), event: 'gtm.js'
+              });
+              var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+              j.async = true;
+              j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+              f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', gtm_id);
+          }
+        }
+
+        /**
+         * Load Google Tag Manager and push data to it.
+         */
+        function handleGoogleTagManager(dataLayer) {
+          // Push data to gtm and load if needed.
+          window.dataLayer.push(dataLayer);
+          debug('GTM - dataLayer.push()');
+          addGtmIfNeeded();
+        }
+
+        /**
+         * Helper to do 'debug' logging (only visible if you are showing 'verbose' console logs).
+         */
+        function debug (msg, data) {
+          if (console.debug) {
+            if (data) {
+              console.debug('Marketing Tracker: ' + msg, data);
+            } else {
+              console.debug('Marketing Tracker: ' + msg);
+            }
+          }
+        }
+
+        /**
+         * Helper to deep clone a simple object (for dataLayer).
+         */
+        function deepClone (obj) {
+          return JSON.parse(JSON.stringify(obj));
+        }
+      })()
+    </script>
+  
+
+<iframe allow="join-ad-interest-group" data-tagging-id="AW-626996515" data-load-time="1698685540940" height="0" width="0" src="./626996515.html" style="display: none; visibility: hidden;"></iframe><script type="text/javascript" async="" src="./f.txt"></script><iframe allow="join-ad-interest-group" data-tagging-id="AW-618648131/jmfJCP_clNYCEMOk_6YC" data-load-time="1698685540954" height="0" width="0" src="./618648131.html" style="display: none; visibility: hidden;"></iframe><script attributionsrc="" type="text/javascript" async="" src="./f(1).txt"></script>
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");google_tag_manager["rm"]["8650358"](5)?fbq("dataProcessingOptions",["LDU"],1,1E3):fbq("dataProcessingOptions",["LDU"],0,0);fbq("init","871885529854177");
+fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=871885529854177&amp;ev=PageView&amp;noscript=1"></noscript>
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.saq||(a=b.saq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._saq||(b._saq=a),a.push=a,a.loaded=!0,a.version="1.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://tags.srv.stackadapt.com/events.js");saq("ts","qactFwJZPEKFj7pyxM7v2g");</script><img src="./adsct" height="1" width="1" style="display: none;"><img src="./adsct(1)" height="1" width="1" style="display: none;"></body></html>

@@ -5,7 +5,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 
 const HeroSection = () => {
   return (
-    <div className="max-w-[1300px] mx-auto relative">
+    <div className="max-w-[1200px] mx-auto relative">
       <div
         className="
             flex
