@@ -1,7 +1,42 @@
+"use client";
+
+// Import necessary packages and components
+import { setToLocalStorage } from "@/helpers/localStorage";
+import { useLoginUserMutation } from "@/redux/api/users/userApi";
+import { ILoginCredentials } from "@/types";
 import Link from "next/link";
 import React from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-const SingIn = () => {
+const SignIn = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILoginCredentials>();
+  const [loginUser, { isError }] = useLoginUserMutation();
+
+  const onSubmit = async (data: ILoginCredentials) => {
+    try {
+      const result: any = await loginUser(data);
+      if (result?.data?.success === false) {
+        toast.error("something went wrong");
+      } else {
+        setToLocalStorage("access-token", result?.data);
+        toast.success("User signed in");
+      }
+      console.log(result, "result");
+    } catch (error) {
+      console.error("Error login", error);
+      toast.error("Failed to sign in. Please try again.");
+    }
+  };
+
+  if (isError) {
+    toast.error("Failed to login. Please try again");
+  }
+
   return (
     <div className="max-w-[1300px] mx-auto">
       <div className="h-[150px] w-full">
@@ -13,18 +48,7 @@ const SingIn = () => {
         </div>
       </div>
 
-      <div
-        className="
-            flex 
-            flex-col
-            md:flex-row
-            justify-between 
-            md:items-center 
-            lg:px-[50px] 
-            px-[30px] 
-            py-10
-        "
-      >
+      <div className="flex flex-col md:flex-row justify-between md:items-center lg:px-[50px] px-[30px] py-10">
         {/* banner part */}
         <div className="flex-1 mb-10 md:mb-0">
           <div className="flex justify-center items-center">
@@ -36,21 +60,38 @@ const SingIn = () => {
         </div>
 
         {/* form part */}
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-3 flex-1">
           <p className="text-center text-2xl font-semibold">Sign In</p>
-          <form className="flex flex-col justify-center gap-5">
+          <form
+            className="flex flex-col justify-center gap-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <input
               type="email"
+              {...register("email", { required: true })}
               placeholder="Email Address"
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
-
+            {errors.email && (
+              <span className="text-red-500 -mt-4 text-sm pl-3">
+                Email is required
+              </span>
+            )}
             <input
               type="password"
               placeholder="Password"
+              {...register("password", { required: true })}
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
-            <button className="p-2 bg-gray-200 hover:bg-gray-900 hover:text-white transition duration-1000">
+            {errors.password && (
+              <span className="text-red-500 -mt-4 text-sm pl-3">
+                Password is required
+              </span>
+            )}
+            <button
+              className="p-2 bg-gray-200 hover:bg-gray-900 hover:text-white transition duration-1000"
+              type="submit"
+            >
               Sign in
             </button>
           </form>
@@ -66,4 +107,4 @@ const SingIn = () => {
   );
 };
 
-export default SingIn;
+export default SignIn;

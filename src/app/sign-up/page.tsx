@@ -1,8 +1,11 @@
 "use client";
 
+import { useUserSignUpMutation } from "@/redux/api/users/userApi";
 import Link from "next/link";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   name: string;
@@ -12,6 +15,10 @@ type FormData = {
 };
 
 const SignUp = () => {
+  const router = useRouter();
+
+  const [userSignUp] = useUserSignUpMutation();
+
   const {
     register,
     handleSubmit,
@@ -19,7 +26,28 @@ const SignUp = () => {
     watch,
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const requestedData = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+
+      const result: any = await userSignUp(requestedData);
+
+      if (result?.data?.success === false) {
+        toast.error("Something went wrong.");
+      } else {
+        toast.success("Sign-up successful");
+        setTimeout(() => {
+          router.push("/sign-in");
+        }, 1000);
+      }
+    } catch (err: any) {
+      toast.error("Something went wrong.");
+    }
+  };
 
   return (
     <div className="max-w-[1300px] mx-auto">
@@ -56,6 +84,11 @@ const SignUp = () => {
               {...register("name", { required: true })}
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
+            {errors.name && (
+              <p className="text-red-500 -mt-4 text-sm pl-3">
+                Name is required
+              </p>
+            )}
 
             <input
               type="email"
@@ -63,6 +96,11 @@ const SignUp = () => {
               {...register("email", { required: true })}
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
+            {errors.email && (
+              <p className="text-red-500 -mt-4 text-sm pl-3">
+                Email is required
+              </p>
+            )}
 
             <input
               type="password"
@@ -70,6 +108,11 @@ const SignUp = () => {
               {...register("password", { required: true })}
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
+            {errors.password && (
+              <p className="text-red-500 -mt-4 text-sm pl-3">
+                Password is required
+              </p>
+            )}
 
             <input
               type="password"
@@ -80,6 +123,17 @@ const SignUp = () => {
               })}
               className="w-full border-b border-gray-300 outline-none p-3 focus:border-black transition duration-300 bg-transparent"
             />
+            {errors.rePassword && errors.rePassword.type === "required" && (
+              <p className="text-red-500 -mt-4 text-sm pl-3">
+                Please retype your password
+              </p>
+            )}
+            {errors.rePassword && errors.rePassword.type === "validate" && (
+              <p className="text-red-500 -mt-4 text-sm pl-3">
+                Passwords do not match
+              </p>
+            )}
+
             <button
               type="submit"
               className={`p-2 ${

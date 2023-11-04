@@ -1,8 +1,10 @@
 import axiosBaseQuery from "@/axios/axiosBaseQuery";
-import { createApi } from "@reduxjs/toolkit/dist/query";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { tagTypeLists } from "./tagTypes";
 
 export const getBaseUrl = (): string => {
-  return "https://car-server-r2xmo7vpf-mr-sazzad.vercel.app/api/v1";
+  // return "https://car-backend-bid9l3cvb-mr-sazzad.vercel.app/api/v1";
+  return "http://localhost:3007/api/v1";
 };
 
 export const baseApi = createApi({
@@ -10,5 +12,5 @@ export const baseApi = createApi({
   baseQuery: axiosBaseQuery({ baseUrl: getBaseUrl() }),
   endpoints: (builder) => ({}),
   //  result cashing
-  tagTypes: [], //TODO tag type lists
+  tagTypes: tagTypeLists,
 });
