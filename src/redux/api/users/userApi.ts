@@ -11,6 +11,7 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.user],
     }),
+
     loginUser: build.mutation({
       query: (data) => ({
         url: `/users/login`,
@@ -19,7 +20,29 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.user],
     }),
+
+    getCurrentUser: build.query({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.user],
+    }),
+
+    updateCurrentUser: build.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/users/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: [tagTypes.user],
+    }),
   }),
 });
 
-export const { useUserSignUpMutation, useLoginUserMutation } = userApi;
+export const {
+  useUserSignUpMutation,
+  useLoginUserMutation,
+  useGetCurrentUserQuery,
+  useUpdateCurrentUserMutation,
+} = userApi;

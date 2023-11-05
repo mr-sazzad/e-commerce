@@ -6,7 +6,7 @@ import { watches } from "@/constants";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { TfiLayoutGrid3Alt, TfiMenuAlt } from "react-icons/tfi";
-import Loading from "../Loading";
+import Loading from "../loading";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);

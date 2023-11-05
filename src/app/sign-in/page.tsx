@@ -28,8 +28,7 @@ const SignIn = () => {
       }
       console.log(result, "result");
     } catch (error) {
-      console.error("Error login", error);
-      toast.error("Failed to sign in. Please try again.");
+      toast.error("Failed to sign in.");
     }
   };
 
