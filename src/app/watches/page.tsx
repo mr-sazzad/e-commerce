@@ -2,14 +2,18 @@
 
 import SortBySection from "@/components/SortBy";
 import WatchCard from "@/components/WatchCard";
-import { watches } from "@/constants";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { TfiLayoutGrid3Alt, TfiMenuAlt } from "react-icons/tfi";
 import Loading from "../loading";
+import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
+
+  const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);
+
+  console.log(watches, "all watches");
 
   const [gridActive, setGridActive] = useState<string>(() => {
     if (typeof window !== "undefined") {
@@ -37,15 +41,19 @@ const Page = () => {
   const [products, setProducts] = useState<any[]>(watches);
 
   useEffect(() => {
+    if (watches) {
+      setProducts(watches);
+    }
+  }, [watches]);
+
+  console.log(products, "Products");
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("grid", gridActive);
       localStorage.setItem("flex", flexActive);
     }
   }, [gridActive, flexActive]);
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
 
   const handleGridActive = () => {
     setGridActive("true");
@@ -59,6 +67,14 @@ const Page = () => {
     setGridActive("false");
     localStorage.setItem("flex", "true");
     localStorage.removeItem("grid");
+  };
+
+  if (loading || isLoading) {
+    return <Loading />;
+  }
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleSort = (value: string) => {
@@ -84,13 +100,9 @@ const Page = () => {
     setProducts(sortedProducts);
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products?.filter((product) =>
+    product?.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div>
@@ -143,13 +155,13 @@ const Page = () => {
                 </div>
                 <div>
                   <p className="text-xl font-semibold">
-                    {filteredProducts.length} products
+                    {filteredProducts?.length} products
                   </p>
                 </div>
               </div>
             </div>
-            <div className="flex gap-7 flex-wrap">
-              {filteredProducts.map((product) => (
+            <div className="flex justify-center gap-7 flex-wrap">
+              {filteredProducts?.map((product) => (
                 <WatchCard key={product.title} {...product} />
               ))}
             </div>

@@ -48,10 +48,10 @@ const Profile = () => {
       setUserData(currentUserData);
     }
 
-    const toggleEditMode = getFromLocalStorage("editMode") as any;
-    if (toggleEditMode) {
-      setToggle(toggleEditMode);
-    }
+    // const toggleEditMode = getFromLocalStorage("editMode") as any;
+    // if (toggleEditMode) {
+    //   setToggle(toggleEditMode);
+    // }
   }, []);
 
   const { data: user, isLoading } = useGetCurrentUserQuery(userData?.id);
@@ -63,8 +63,11 @@ const Profile = () => {
       let profileImage = null;
       let coverImageURL = null;
 
-      if (data.file[0] || data.coverImage[0]) {
+      if (data.file[0]) {
         profileImage = await UploadImageToImageBB(data.file[0]);
+      }
+
+      if (data.coverImage[0]) {
         coverImageURL = await UploadImageToImageBB(data.coverImage[0]);
       }
 
@@ -83,10 +86,8 @@ const Profile = () => {
       if (result) {
         setLoading(false);
         toast.success("information Updated !");
+        setToggle("in-active");
         setToLocalStorage("editMode", "in-active");
-        setTimeout(() => {
-          setToggle("active");
-        }, 500);
       }
     } catch (err: any) {
       setLoading(false);

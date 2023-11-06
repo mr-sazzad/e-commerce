@@ -5,6 +5,7 @@ import { setToLocalStorage } from "@/helpers/localStorage";
 import { useLoginUserMutation } from "@/redux/api/users/userApi";
 import { ILoginCredentials } from "@/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -16,6 +17,7 @@ const SignIn = () => {
     formState: { errors },
   } = useForm<ILoginCredentials>();
   const [loginUser, { isError }] = useLoginUserMutation();
+  const router = useRouter();
 
   const onSubmit = async (data: ILoginCredentials) => {
     try {
@@ -25,8 +27,8 @@ const SignIn = () => {
       } else {
         setToLocalStorage("access-token", result?.data);
         toast.success("User signed in");
+        router.back();
       }
-      console.log(result, "result");
     } catch (error) {
       toast.error("Failed to sign in.");
     }

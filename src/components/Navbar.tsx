@@ -28,7 +28,7 @@ const Navbar = () => {
                 <Link href="/watches">Products</Link>
               </li>
               <li>
-                <Link href="/cart">Cart</Link>
+                <Link href="/user/cart">Cart</Link>
               </li>
               <li>
                 <Link href="/sign-in">Login</Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
               <Link href="/watches">Products</Link>
             </li>
             <li>
-              <Link href="/cart">Cart</Link>
+              <Link href="/user/cart">Cart</Link>
             </li>
             <li>
               <Link href="/sign-in">Login</Link>
