@@ -13,7 +13,7 @@ const Page = () => {
 
   const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);
 
-  console.log(watches, "all watches");
+  // console.log(watches, "all watches");
 
   const [gridActive, setGridActive] = useState<string>(() => {
     if (typeof window !== "undefined") {
@@ -46,7 +46,7 @@ const Page = () => {
     }
   }, [watches]);
 
-  console.log(products, "Products");
+  // console.log(products, "Products");
 
   useEffect(() => {
     if (typeof window !== "undefined") {

@@ -20,16 +20,13 @@ import { ImEye } from "react-icons/im";
 const isBrowser = typeof window !== "undefined";
 
 const WatchCard = (watch: any) => {
-  const gridActive = isBrowser ? localStorage.getItem("grid") : null;
+  const [cart, setCart] = useState<any[]>([]);
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
 
-  const active = gridActive === "true";
-
-  const currentUser = getUserFromLocalStorage() as any;
+  const currentUser: any = getUserFromLocalStorage();
 
   const { data: user, isLoading } = useGetCurrentUserQuery(currentUser?.id);
-
   const [addToCart] = useAddToCartMutation();
   const [updateSingleFromCart] = useUpdateSingleFromCartMutation();
 
@@ -42,94 +39,63 @@ const WatchCard = (watch: any) => {
       router.push("/sign-in");
     }
 
-    if (user && user.Cart) {
-      // Check if the product already exists in the cart
-      const existingProduct = user.Cart.find((item: any) => {
-        return item.watchId === watch.id;
-      });
+    // Fetch the latest user data, including the cart
+    try {
+      const response = await fetch(
+        `http://localhost:3007/api/v1/users/${currentUser?.id}`
+      );
+      const updatedUser = await response.json();
 
-      console.log(existingProduct, "existing product");
-
-      if (existingProduct) {
-        const updatedCartItem = {
-          userId: existingProduct.userId,
-          watchId: existingProduct.watchId,
-          quantity: existingProduct.quantity + 1,
-        };
-
-        const cartId = existingProduct?.id;
-
-        const result = await updateSingleFromCart({
-          id: cartId,
-          ...updatedCartItem,
+      if (updatedUser && updatedUser?.data?.Cart) {
+        const existingProduct = updatedUser?.data?.Cart.find((item: any) => {
+          return item.watchId === watch.id;
         });
 
-        // if(result?.data?.success !== false){
-        //   toast.success("your cart has been updated")
-        // }
-      } else {
-        const addToCartData = {
-          userId: currentUser?.id,
-          watchId: watch?.id,
-          quantity: 1,
-        };
+        console.log(existingProduct, "existing product");
 
-        if (watch.status === "Available") {
-          const result = await addToCart(addToCartData);
+        if (existingProduct) {
+          const updatedCartItem = {
+            userId: existingProduct.userId,
+            watchId: existingProduct.watchId,
+            quantity: existingProduct.quantity + 1,
+          };
 
-          console.log(result, "add to cart");
+          const cartId = existingProduct?.id;
+
+          const result: any = await updateSingleFromCart({
+            id: cartId,
+            ...updatedCartItem,
+          });
+
+          if (result?.data?.success !== false) {
+            toast.success("Your cart has been updated");
+          }
+        } else {
+          const addToCartData = {
+            userId: currentUser?.id,
+            watchId: watch?.id,
+            quantity: 1,
+          };
+
+          if (watch.status === "Available") {
+            const result = await addToCart(addToCartData);
+            console.log(result, "add to cart");
+          }
         }
       }
+    } catch (error) {
+      console.error("Error fetching or updating user data:", error);
     }
   };
-
-  // const handleAddToCart = async (watch: IWatch) => {
-  //   if (!currentUser) {
-  //     router.push("/sign-in");
-  //   }
-
-  //   if (!user) {
-  //     router.push("/sign-in");
-  //   }
-
-  //   if (user && user.Cart) {
-  //     // Check if the product already exists in the cart
-  //     const existingProductIndex = user.Cart.findIndex(
-  //       (item: any) => item.watchId === watch.id
-  //     );
-
-  //     if (existingProductIndex !== -1) {
-  //       const existingProduct = user.Cart[existingProductIndex];
-  //       const updatedCart = [...user.Cart];
-  //       updatedCart[existingProductIndex] = {
-  //         ...existingProduct,
-  //         quantity: existingProduct.quantity + 1,
-  //       };
-
-  //       const result = await updateSingleFromCart({
-  //         id: existingProduct.id,
-  //         ...updatedCart[existingProductIndex],
-  //       });
-
-  //       console.log(result, "updated cart");
-  //     } else {
-  //       const addToCartData = {
-  //         userId: currentUser?.id,
-  //         watchId: watch?.id,
-  //         quantity: 1,
-  //       };
-
-  //       if (watch.status === "Available") {
-  //         const result = await addToCart(addToCartData);
-  //         console.log(result, "add to cart");
-  //       }
-  //     }
-  //   }
-  // };
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const isBrowser = typeof window !== "undefined";
+  const gridActive = isBrowser ? localStorage.getItem("grid") : null;
+  const active = gridActive === "true";
+
   return (
     <div
       className={`flex flex-row items-center w-full gap-3 relative border border-gray-200 hover:shadow transition ${
