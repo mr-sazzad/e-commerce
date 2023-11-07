@@ -1,98 +1,14 @@
 "use client";
-
-import Loading from "@/app/loading";
-// WatchCard.tsx
-import { getUserFromLocalStorage } from "@/helpers/jwt";
-import {
-  useAddToCartMutation,
-  useUpdateSingleFromCartMutation,
-} from "@/redux/api/cart/cartApi";
-import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
-import { IWatch } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 
-import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { ImEye } from "react-icons/im";
+import AddToCart from "./buttons/AddToCart";
 
 const WatchCard = (watch: any) => {
   const [hovered, setHovered] = useState(false);
-  const router = useRouter();
-
-  const currentUser: any = getUserFromLocalStorage();
-
-  const { data: user, isLoading } = useGetCurrentUserQuery(currentUser?.id);
-  const [addToCart] = useAddToCartMutation();
-  const [updateSingleFromCart] = useUpdateSingleFromCartMutation();
-
-  const handleAddToCart = async (watch: IWatch) => {
-    if (!currentUser) {
-      router.push("/sign-in");
-    }
-
-    if (!user) {
-      router.push("/sign-in");
-    }
-
-    // Fetch the latest user data, including the cart
-    try {
-      const response = await fetch(
-        `http://localhost:3007/api/v1/users/${currentUser?.id}`
-      );
-      const updatedUser = await response.json();
-
-      if (updatedUser && updatedUser?.data?.Cart) {
-        const existingProduct = updatedUser?.data?.Cart.find((item: any) => {
-          return item.watchId === watch.id;
-        });
-
-        console.log(existingProduct, "existing product");
-
-        if (existingProduct) {
-          const updatedCartItem = {
-            userId: existingProduct.userId,
-            watchId: existingProduct.watchId,
-            quantity: existingProduct.quantity + 1,
-          };
-
-          const cartId = existingProduct?.id;
-
-          const result: any = await updateSingleFromCart({
-            id: cartId,
-            ...updatedCartItem,
-          });
-
-          if (result?.data?.success !== false) {
-            toast.success("Your cart has been updated");
-          }
-        } else {
-          const addToCartData = {
-            userId: currentUser?.id,
-            watchId: watch?.id,
-            quantity: 1,
-          };
-
-          if (watch.status === "Available") {
-            toast.error("This Item Temporarily Unavailable");
-          }
-
-          if (watch.status === "Available") {
-            await addToCart(addToCartData);
-            toast.success("Product Added To Cart");
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching or updating user data:", error);
-    }
-  };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   const isBrowser = typeof window !== "undefined";
   const gridActive = isBrowser ? localStorage.getItem("grid") : null;
@@ -121,12 +37,7 @@ const WatchCard = (watch: any) => {
           />
           {hovered && (
             <div className="absolute bottom-0 w-full flex justify-center pb-4 transition duration-300 ease-in-out">
-              <button
-                className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white"
-                onClick={() => handleAddToCart(watch)}
-              >
-                <AiOutlineShoppingCart />
-              </button>
+              <AddToCart watch={watch} />
               <Link
                 href={`/watches/${watch.id}`}
                 className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white"

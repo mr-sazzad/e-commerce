@@ -1,14 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
-
-import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
-import { ImEye } from "react-icons/im";
+import React from "react";
 
 const UpcomingCard = (watch: any) => {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <div
       className="
@@ -23,8 +18,6 @@ const UpcomingCard = (watch: any) => {
         border-gray-200
         items-center 
       "
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       <div
         className="
@@ -48,13 +41,6 @@ const UpcomingCard = (watch: any) => {
             layout="fill"
             objectFit="cover"
           />
-          {hovered && (
-            <div className="absolute bottom-0 w-full flex justify-center pb-4 transition duration-300 ease-in-out">
-              <button className="bg-white text-[#9F7A49] py-3 text-xl px-5 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
-                <AiOutlineHeart className="text-2xl" />
-              </button>
-            </div>
-          )}
         </div>
       </div>
       <div className="p-5">
