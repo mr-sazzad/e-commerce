@@ -10,6 +10,7 @@ import {
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
 import { IWatch } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -17,10 +18,7 @@ import toast from "react-hot-toast";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { ImEye } from "react-icons/im";
 
-const isBrowser = typeof window !== "undefined";
-
 const WatchCard = (watch: any) => {
-  const [cart, setCart] = useState<any[]>([]);
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
 
@@ -78,8 +76,12 @@ const WatchCard = (watch: any) => {
           };
 
           if (watch.status === "Available") {
-            const result = await addToCart(addToCartData);
-            console.log(result, "add to cart");
+            toast.error("This Item Temporarily Unavailable");
+          }
+
+          if (watch.status === "Available") {
+            await addToCart(addToCartData);
+            toast.success("Product Added To Cart");
           }
         }
       }
@@ -125,9 +127,12 @@ const WatchCard = (watch: any) => {
               >
                 <AiOutlineShoppingCart />
               </button>
-              <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
+              <Link
+                href={`/watches/${watch.id}`}
+                className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white"
+              >
                 <ImEye />
-              </button>
+              </Link>
               <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
                 <AiOutlineHeart />
               </button>

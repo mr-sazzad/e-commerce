@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { TfiLayoutGrid3Alt, TfiMenuAlt } from "react-icons/tfi";
 import Loading from "../loading";
 import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -106,14 +107,7 @@ const Page = () => {
 
   return (
     <div>
-      <div className="h-[200px] w-full bg-slate-100">
-        <div className="flex justify-center items-center h-full w-full">
-          <div>
-            <h2 className="text-xl font-bold">Collection</h2>
-            <Link href="/">Home</Link> / <span>collections</span>
-          </div>
-        </div>
-      </div>
+      <BreadCrumb link="/" redirectTo="Home" current="Collection" />
       <div className="max-w-[1300px] mx-auto">
         <div className="flex flex-col md:flex-row gap-5 px-[30px] lg:px-[50px] mt-[100px]">
           <div className="md:w-[40%] w-full">
