@@ -1,13 +1,28 @@
 import Loading from "@/app/loading";
-import { useGetSingleFromCartQuery } from "@/redux/api/cart/cartApi";
+import {
+  useDeleteSingleFromCartMutation,
+  useGetSingleFromCartQuery,
+} from "@/redux/api/cart/cartApi";
 import { ICartItem } from "@/types";
 import Image from "next/image";
 import React from "react";
+import toast from "react-hot-toast";
 
-import { PiTrashSimpleLight } from "react-icons/pi";
+import { PiTrashBold } from "react-icons/pi";
 
 const CartItem = (item: ICartItem) => {
   const { data: watch, isLoading } = useGetSingleFromCartQuery(item.id);
+  const [deleteSingleFromCart] = useDeleteSingleFromCartMutation();
+
+  const handleDelete = async (item: any) => {
+    try {
+      // console.log(item?.id);
+      const result = await deleteSingleFromCart(item?.id);
+      toast.success("item deleted");
+    } catch (err) {
+      toast.error("something went wrong");
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -25,8 +40,11 @@ const CartItem = (item: ICartItem) => {
         </p>
       </div>
       <div className="absolute right-5 top-5">
-        <button className="px-5 py-2 bg-rose-500 hover:bg-rose-600 transition">
-          <PiTrashSimpleLight className="text-xl text-white font-bold"/>
+        <button
+          className="px-5 py-2 bg-red-500 hover:bg-red-600 transition"
+          onClick={() => handleDelete(watch)}
+        >
+          <PiTrashBold className="text-xl text-white" />
         </button>
       </div>
     </div>

@@ -4,11 +4,17 @@ import Logo from "./Logo";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
+// import { NavbarItems } from "@/constants/menubar";
+// import { getUserFromLocalStorage } from "@/helpers/jwt";
 
 const mobileMenuHeight = `calc(100vh - 64px)`;
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  // const currentUser = getUserFromLocalStorage() as any;
+
+  // const menuItems = NavbarItems(currentUser?.role);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);

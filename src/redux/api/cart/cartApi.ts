@@ -39,7 +39,7 @@ const cartApi = baseApi.injectEndpoints({
     }),
 
     deleteSingleFromCart: build.mutation({
-      query: ({ id }) => ({
+      query: (id) => ({
         url: `/cart/${id}`,
         method: "DELETE",
       }),

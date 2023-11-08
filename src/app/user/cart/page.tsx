@@ -4,15 +4,35 @@ import Loading from "@/app/loading";
 import CartItem from "@/components/CartItem";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetAllFromCartQuery } from "@/redux/api/cart/cartApi";
-// import { watches } from "@/constants";
+import { useStripePaymentMutation } from "@/redux/api/payment/paymentApi";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import { BiSolidQuoteAltLeft } from "react-icons/bi";
+
+// stripe js
+import { loadStripe } from "@stripe/stripe-js";
+import BreadCrumb from "@/components/BreadCrumb";
+import { useRouter } from "next/navigation";
+
+const stripeKey =
+  "pk_test_51O7I6YSHcqDbqznpElzunzfMsBFHFu6tog3M1UGhXBb5DcqO15sSsbshWIewrqyLC7kOVmpb0aP2L2iFVwJ672ef00llYTcNGY";
 
 const Cart = () => {
   const currentUser = getUserFromLocalStorage() as any;
+  const [disable, setDisable] = useState(false);
+  const [stripePayment] = useStripePaymentMutation();
+  const router = useRouter();
+
   const { data: cartProducts, isLoading } = useGetAllFromCartQuery(
     currentUser?.id
   );
+
+  useEffect(() => {
+    if (cartProducts && cartProducts.length <= 0) {
+      setDisable(true);
+    }
+  }, [cartProducts]);
 
   if (isLoading) {
     return <Loading />;
@@ -21,26 +41,46 @@ const Cart = () => {
   let totalAmount = 0;
 
   if (cartProducts) {
-    totalAmount = cartProducts.reduce(
+    totalAmount = cartProducts?.reduce(
       (accumulator: number, item: any) =>
         accumulator + item.product.price * item.quantity,
       0
     );
   }
 
+  const handleCheckOut = async () => {
+    const stripe = await loadStripe(stripeKey);
+    try {
+      // console.log("hello");
+      const result: any = await stripePayment(cartProducts);
+
+      if (result) {
+        // console.log(result, "result");
+        router.push(result.url);
+      }
+    } catch (err) {
+      console.error(err, "payment error");
+    }
+
+    // const data = await fetch(
+    //   "http://localhost:3007/api/v1/payment/create-checkout-session",{
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     // body: JSON.stringify(cartProducts),
+    //   }
+    // );
+    // const result = await data.json();
+    // console.log(result, "result");
+  };
+
   return (
     <div>
-      <div className="h-[200px] w-full bg-slate-100">
-        <div className="flex justify-center items-center h-full w-full">
-          <div>
-            <h2 className="text-xl font-bold">Cart</h2>
-            <Link href="/">Home</Link> / <span>Cart</span>
-          </div>
-        </div>
-      </div>
+      <BreadCrumb link="/" redirectTo="Home" current="Cart" />
 
       <div className="max-w-[1300px] mx-auto">
-        <div className="flex flex-col md:flex-row gap-10 justify-between mt-10 px-[30px] lg:px[50px]">
+        <div className="flex flex-col md:flex-row gap-16 justify-between mt-10 px-[30px] lg:px-[50px]">
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-5 text-center">
               Cart Products
@@ -57,10 +97,40 @@ const Cart = () => {
             </div>
           </div>
           <div className="flex-1">
-            {/* <h2 className="text-xl font-semibold mb-5 text-center">Checkout</h2>
-            <Elements stripe={stripePromise}>
-              <CheckoutForm />
-            </Elements> */}
+            <h2 className="text-xl font-semibold mb-5 text-center">Checkout</h2>
+            <div className="relative">
+              <BiSolidQuoteAltLeft className="absolute text-[70px] -top-12 -left-9 text-gray-200 z-1" />
+              <p className="text-gray-700 z-1000">
+                To purchase quantities greater than one, kindly add the desired
+                number of items to your cart. Please ensure to specify the
+                quantity of the item you wish to purchase.
+              </p>
+            </div>
+            <div className="flex justify-end my-10">
+              <button
+                onClick={handleCheckOut}
+                className={`
+                  border 
+                  border-gray-300 
+                  px-4 py-[6px]
+                  ${
+                    disable
+                      ? "cursor-not-allowed text-gray-400"
+                      : `bg-gray-700 
+                         text-white 
+                         hover:bg-white 
+                         hover:text-black 
+                         transition 
+                         duration-500
+                        `
+                  }
+                `}
+                disabled={disable}
+                type="submit"
+              >
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>

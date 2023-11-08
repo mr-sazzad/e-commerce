@@ -1,9 +1,17 @@
-import { watches } from "@/constants";
+"use client";
+
 import React from "react";
 import RecentCard from "./RecentCard";
+import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
+import Loading from "@/app/loading";
 
 const Recent = () => {
-  const products = watches;
+  const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);
+  // console.log(watches, "watches");
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="max-w-[1300px] mx-auto px-[30px] lg:px-[50px] mb-10">
@@ -12,7 +20,7 @@ const Recent = () => {
       </h2>
       <div className="flex justify-center">
         <div className="flex flex-col sm:flex-row flex-wrap gap-5 justify-center">
-          {watches.map((watch: any) => (
+          {watches?.map((watch: any) => (
             <RecentCard key={watch.title} {...watch} />
           ))}
         </div>
