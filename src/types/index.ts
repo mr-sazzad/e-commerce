@@ -29,3 +29,19 @@ export interface ICartItem {
   watchId: string;
   userId: string;
 }
+
+// admin part
+
+export interface AdminWatch {
+  id: string;
+  title: string;
+  image: string;
+  price: number;
+  status: string;
+  rating: number;
+}
+
+export interface OptionType {
+  value: string;
+  label: string;
+}
