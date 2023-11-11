@@ -2,6 +2,7 @@
 
 import { useUpdateSingletUserMutation } from "@/redux/api/users/userApi";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 
@@ -32,7 +33,7 @@ const UserCard = (user: any) => {
       <div className="relative">
         <div className="h-[70px] w-full relative">
           <Image
-            src={user?.coverImage}
+            src={user?.coverImage ? user?.coverImage : "/assets/cover.jpg"}
             alt="cover-image"
             fill
             objectFit="cover"
@@ -41,7 +42,7 @@ const UserCard = (user: any) => {
         <div className="absolute -bottom-6 left-2">
           <div className="relative w-[60px] h-[60px]">
             <Image
-              src={user?.image}
+              src={user?.image ? user?.image : "/assets/placeholder.png"}
               alt="profile-image"
               fill
               objectFit="contain"
@@ -66,8 +67,9 @@ const UserCard = (user: any) => {
         )}
       </div>
       <div className="mt-4 flex justify-center gap-4 mb-3">
-        <button
-          className="
+        <Link href={`/admin/management/users/edit-user/${user.id}`}>
+          <button
+            className="
             group
             px-5 
             py-2 
@@ -80,9 +82,10 @@ const UserCard = (user: any) => {
             text-white 
             hover:text-gray-800 
           "
-        >
-          <LiaEdit className="transform group-hover:scale-125 transition-transform" />
-        </button>
+          >
+            <LiaEdit className="transform group-hover:scale-125 transition-transform" />
+          </button>
+        </Link>
         <button
           onClick={() => handleChangeStatus(user)}
           className="

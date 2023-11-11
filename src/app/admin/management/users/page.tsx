@@ -17,14 +17,10 @@ const WatchManagement = () => {
 
   // Logic to get current items based on the selected page
   const indexOfLastUser = currentPage * itemsPerPage;
-  // console.log(indexOfLastUser, "indexOfLastUser");
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
-  // console.log(indexOfFirstUser, "indexOfFirstUser");
   const currentUsers = users
     ? users.slice(indexOfFirstUser, indexOfLastUser)
     : [];
-
-  // console.log(currentUsers, "current Users");
 
   // Logic to handle page changes
   const handlePageChange = (pageNumber: number) => {

@@ -1,25 +1,38 @@
 "use client";
 
+import Loading from "@/app/loading";
 import BreadCrumb from "@/components/BreadCrumb";
-import GenderSelect from "@/components/admin/GenderSelect";
-import { UploadImageToImageBB } from "@/helpers/imageUpload";
-import { useUserSignUpMutation } from "@/redux/api/users/userApi";
-import { OptionType } from "@/types";
-import Link from "next/link";
+import {
+  useGetCurrentUserQuery,
+  useUpdateSingletUserMutation,
+} from "@/redux/api/users/userApi";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import GenderSelect from "@/components/admin/GenderSelect";
 import toast from "react-hot-toast";
+import { UploadImageToImageBB } from "@/helpers/imageUpload";
 
-import { BsArrowRightShort } from "react-icons/bs";
+import { PiGenderMaleFill } from "react-icons/pi";
+import { BsFillPhoneFill } from "react-icons/bs";
+import { BiSolidHomeSmile } from "react-icons/bi";
+import { MdEmail } from "react-icons/md";
+import { SiStatuspal } from "react-icons/si";
+import { OptionType } from "@/types";
 
-const AddNewUser = () => {
-  const [gender, setGender] = useState("");
+const EditUser = () => {
+  const { id } = useParams();
   const { handleSubmit, register } = useForm();
 
-  const [userSignUp] = useUserSignUpMutation();
+  const { data: user, isLoading } = useGetCurrentUserQuery(id);
+  const [updateSingleUser] = useUpdateSingletUserMutation();
 
   const [profileImageName, setProfileImageName] = useState("");
   const [coverImageName, setCoverImageName] = useState("");
+  const [gender, setGender] = useState("");
+
+  console.log(gender, "gender");
 
   const handleSelectChange = (selectedOption: OptionType | null) => {
     if (selectedOption) {
@@ -28,70 +41,162 @@ const AddNewUser = () => {
   };
 
   const onSubmit = async (data: any) => {
-    let coverImage = "";
     let profileImage = "";
-
-    if (data.cover_image && data.cover_image[0]) {
-      coverImage = await UploadImageToImageBB(data.cover_image[0]);
-    }
-
-    if (data.profile_image && data.profile_image[0]) {
-      profileImage = await UploadImageToImageBB(data.profile_image[0]);
-    }
-
-    const requestedData = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      gender: gender || "NotSet",
-      phone: data.phone || "",
-      image: profileImage || "",
-      coverImage: coverImage || "",
-      address: data.address || "",
-      age: data.age,
-    };
-
-    const result: any = await userSignUp(requestedData);
-
-    if (result?.data?.success !== false) {
-      toast.success("user Created");
-    }
-
+    let coverImage = "";
     try {
-    } catch (e) {
+      if (data.profile_image && data.profile_image[0]) {
+        profileImage = await UploadImageToImageBB(data.profile_image[0]);
+      }
+
+      if (data.cover_image && data.cover_image[0]) {
+        coverImage = await UploadImageToImageBB(data.cover_image[0]);
+      }
+
+      const requestedData = {
+        name: data.name || user?.name,
+        image: profileImage || user?.image,
+        coverImage: coverImage || user?.coverImage,
+        phone: data.phone || user?.phone,
+        gender: gender || user?.gender,
+        age: data.age || user?.age,
+        address: data.address || user?.address,
+      };
+
+      const result: any = await updateSingleUser({
+        id: user?.id,
+        ...requestedData,
+      });
+
+      if (result?.data?.status !== false) {
+        toast.success("user updated");
+      }
+    } catch (err) {
       toast.error("something went wrong");
     }
   };
 
+  const handleChangeStatus = async (user: any) => {
+    const userId = user.id;
+
+    try {
+      const requestedData = {
+        isBanned: !user?.isBanned,
+      };
+
+      const result = await updateSingleUser({ id: userId, ...requestedData });
+
+      console.log(result, "result");
+    } catch (e: any) {
+      toast.error("something went wrong");
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <BreadCrumb
-        current="Add-New-User"
-        redirectTo="All-Users"
+        redirectTo="Users Page"
+        current="Edit User"
         link="/admin/management/users"
       />
-      <div className="max-w-[1300px] mx-auto mt-10">
-        <div className="flex flex-col md:flex-row gap-5 mx-[30px] lg:mx-[50px]">
-          <div className="flex justify-center items-center flex-1 new-user-banner relative min-h-[300px]">
-            <div className="my-10 z-[1000]">
-              <h2 className="text-4xl font-semibold text-white">Add New</h2>
-              <h2 className="text-4xl font-semibold text-white">Person</h2>
-              <div className="flex items-center gap-1 group cursor-pointer">
-                <Link
-                  href="/admin/management/users"
-                  className="text-white hover:underline"
-                >
-                  Go To Users
-                </Link>
-                <BsArrowRightShort className="text-white group-hover:translate-x-1 transition-all duration-300" />
+      <div className="max-w-[1200px] mx-auto my-10">
+        <div className="flex flex-col md:flex-row gap-5 px-[30px] lg:px-[50px]">
+          <div className="w-full md:w-[300px]">
+            <div className="flex flex-col gap-2 w-full">
+              <div className="relative">
+                <div className="relative w-full h-[120px]">
+                  <Image
+                    src={
+                      user?.coverImage ? user?.coverImage : "/assets/cover.jpg"
+                    }
+                    alt="coverImage"
+                    fill
+                    objectFit="cover"
+                  />
+                </div>
+                <div className="absolute h-[70px] w-[70px] -bottom-7 left-1/2 transform -translate-x-1/2">
+                  <Image
+                    src={user?.image ? user?.image : "/assets/placeholder.png"}
+                    alt="placeholder-image"
+                    fill
+                    objectFit="cover"
+                    className="p-1 rounded-full bg-white"
+                  />
+                </div>
+              </div>
+              <div className="p-5 mt-5 cursor-not-allowed">
+                {/* information */}
+                <p className="font-semibold text-lg text-gray-500">
+                  {user?.name}
+                </p>
+                <p className="flex gap-1 items-center">
+                  <MdEmail className="text-gray-400" />
+                  {user?.email}
+                </p>
+                <p className="flex gap-1 items-center">
+                  <PiGenderMaleFill className="text-gray-400" /> {user?.gender}
+                </p>
+                <p className="flex gap-1 items-center">
+                  <BsFillPhoneFill className="text-gray-400" /> {user?.phone}
+                </p>
+                <p className="flex gap-1 items-center">
+                  <BiSolidHomeSmile className="text-gray-400" />
+                  {user?.address}
+                </p>
+                <p className="flex gap-1 items-center">
+                  <SiStatuspal className="text-gray-400" />
+                  {user?.isBanned ? (
+                    <p className="bg-red-500 px-3 rounded-full text-white">
+                      Banned
+                    </p>
+                  ) : (
+                    <p className="bg-green-400 px-3 rounded-full text-white">
+                      Safe
+                    </p>
+                  )}
+                </p>
+              </div>
+              <div className="bg-red-100 w-full">
+                {/* danger */}
+                <div className="px-5 py-3">
+                  <p className="text-lg font-semibold text-red-800 mb-3">
+                    Danger Zone
+                  </p>
+                  <p className="text-gray-600 mb-3">
+                    Report any inappropriate behavior for immediate action. We
+                    reserve the right to ban users violating community standards
+                  </p>
+
+                  <button
+                    className={`
+                      px-5 
+                      py-1 
+                      transition-all 
+                      duration-300
+                      ${
+                        user?.isBanned
+                          ? "bg-green-500 hover:bg-green-600 text-white"
+                          : "bg-red-500 hover:bg-red-700 text-white"
+                      }
+                    `}
+                    onClick={() => handleChangeStatus(user)}
+                  >
+                    {user?.isBanned ? "Unbanned This User" : "Ban This User"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          {/* form part */}
           <div className="flex-1">
-            <h2 className="text-center font-semibold text-3xl mb-8">
-              New User
-            </h2>
-
+            <div>
+              <p className="text-center sm:text-2xl text-xl font-bold">
+                Update User Information
+              </p>
+            </div>
             <form
               className="flex flex-col gap-8 my-10"
               onSubmit={handleSubmit(onSubmit)}
@@ -110,14 +215,41 @@ const AddNewUser = () => {
                       z-50
                     "
                   >
-                    Name <span className="text-red-500">*</span>
+                    Name
                   </label>
                   <input
                     type="text"
-                    {...register("name", { required: true })}
+                    defaultValue={user?.name}
+                    {...register("name")}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
                 </div>
+                {/* Phone Number */}
+                <div className="flex flex-col gap-1 w-full text-gray-500 relative">
+                  <label
+                    className="
+                      ml-3 
+                      absolute 
+                      -top-[14px] 
+                      px-2 
+                      bg-gray-100 
+                      border-l-2 
+                      border-gray-400
+                    "
+                  >
+                    Phone
+                  </label>
+                  <input
+                    type="string"
+                    {...register("phone")}
+                    className="outline-none border border-gray-300 px-3 py-[5px]"
+                  />
+                </div>
+                {/* end */}
+              </div>
+
+              <div className="flex flex-col md:flex-row md:gap-5 gap-8">
+                {/* email part */}
                 <div className="flex flex-col gap-1 w-full text-gray-500 relative">
                   <label
                     className="
@@ -131,39 +263,19 @@ const AddNewUser = () => {
                       z-50
                     "
                   >
-                    Email <span className="text-red-500">*</span>
+                    Email
                   </label>
                   <input
                     type="email"
-                    {...register("email", { required: true })}
+                    disabled
+                    defaultValue={user?.email}
+                    {...register("email")}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col md:flex-row md:gap-5 gap-8">
-                <div className="flex flex-col gap-1 w-full text-gray-500 relative">
-                  <label
-                    className="
-                      ml-3 
-                      absolute 
-                      -top-[14px] 
-                      px-2 
-                      bg-gray-100 
-                      border-l-2 
-                      border-gray-400 
-                      z-50
-                    "
-                  >
-                    Password <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="password"
-                    {...register("password", { required: true })}
-                    className="outline-none border border-gray-300 px-3 py-[5px]"
-                  />
-                </div>
-
                 <div className="flex flex-col w-full text-gray-500 relative border border-gray-300">
                   <label
                     className="
@@ -178,7 +290,7 @@ const AddNewUser = () => {
                     "
                     htmlFor="profile_image_upload"
                   >
-                    Image
+                    Profile Image
                   </label>
                   <div className="relative mt-2">
                     <input
@@ -199,9 +311,6 @@ const AddNewUser = () => {
                     </label>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row md:gap-5 gap-8">
                 {/* cover image part */}
                 <div className="flex flex-col w-full text-gray-500 relative border border-gray-300">
                   <label
@@ -217,7 +326,7 @@ const AddNewUser = () => {
                     "
                     htmlFor="cover_image_upload"
                   >
-                    Cover
+                    Cover Image
                   </label>
                   <div className="relative mt-2">
                     <input
@@ -239,6 +348,9 @@ const AddNewUser = () => {
                     </label>
                   </div>
                 </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row md:gap-5 gap-8">
                 {/* gender part */}
                 <div className="flex flex-col gap-1 w-full text-gray-500 relative">
                   <label
@@ -256,30 +368,6 @@ const AddNewUser = () => {
                     Gender
                   </label>
                   <GenderSelect onSelectChange={handleSelectChange} />
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row md:gap-5 gap-8">
-                {/* Phone Number */}
-                <div className="flex flex-col gap-1 w-full text-gray-500 relative">
-                  <label
-                    className="
-                      ml-3 
-                      absolute 
-                      -top-[14px] 
-                      px-2 
-                      bg-gray-100 
-                      border-l-2 
-                      border-gray-400
-                    "
-                  >
-                    Phone
-                  </label>
-                  <input
-                    type="string"
-                    {...register("phone")}
-                    className="outline-none border border-gray-300 px-3 py-[5px]"
-                  />
                 </div>
                 {/* Age */}
                 <div className="flex flex-col gap-1 w-full text-gray-500 relative">
@@ -320,7 +408,7 @@ const AddNewUser = () => {
                     Address
                   </label>
                   <textarea
-                    rows={3}
+                    rows={4}
                     {...register("address")}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
@@ -339,7 +427,7 @@ const AddNewUser = () => {
                 "
                 type="submit"
               >
-                Add New User
+                Update This User
               </button>
             </form>
           </div>
@@ -349,4 +437,4 @@ const AddNewUser = () => {
   );
 };
 
-export default AddNewUser;
+export default EditUser;

@@ -1,7 +1,6 @@
 "use client";
 
 import Select from "react-select";
-import { useState, FocusEventHandler } from "react";
 import { OptionType } from "@/types";
 
 interface MySelectProps {
@@ -9,9 +8,9 @@ interface MySelectProps {
 }
 
 const options: OptionType[] = [
-  { value: "male", label: "♂️ Male" },
-  { value: "female", label: "♀️ Female" },
-  { value: "others", label: "⚧️ Other" },
+  { value: "Male", label: "♂️ Male" },
+  { value: "Female", label: "♀️ Female" },
+  { value: "Others", label: "⚧️ Other" },
 ];
 
 const GenderSelect = ({ onSelectChange }: MySelectProps) => {
