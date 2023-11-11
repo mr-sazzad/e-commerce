@@ -20,9 +20,14 @@ const UserCard = (user: any) => {
         isBanned: !user?.isBanned,
       };
 
-      const result = await updateSingleUser({ id: userId, ...requestedData });
+      const result: any = await updateSingleUser({
+        id: userId,
+        ...requestedData,
+      });
 
-      console.log(result, "result");
+      if (result?.data?.success !== false) {
+        toast.success("User Status Updated");
+      }
     } catch (e: any) {
       toast.error("something went wrong");
     }

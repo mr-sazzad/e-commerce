@@ -6,6 +6,7 @@ import { UploadImageToImageBB } from "@/helpers/imageUpload";
 import { useUserSignUpMutation } from "@/redux/api/users/userApi";
 import { OptionType } from "@/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -13,8 +14,9 @@ import toast from "react-hot-toast";
 import { BsArrowRightShort } from "react-icons/bs";
 
 const AddNewUser = () => {
+  const router = useRouter();
   const [gender, setGender] = useState("");
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, reset } = useForm();
 
   const [userSignUp] = useUserSignUpMutation();
 
@@ -30,7 +32,8 @@ const AddNewUser = () => {
   const onSubmit = async (data: any) => {
     let coverImage = "";
     let profileImage = "";
-
+    try {
+      
     if (data.cover_image && data.cover_image[0]) {
       coverImage = await UploadImageToImageBB(data.cover_image[0]);
     }
@@ -55,9 +58,15 @@ const AddNewUser = () => {
 
     if (result?.data?.success !== false) {
       toast.success("user Created");
+      // reset form
+      reset();
+      // redirect to users page
+      setTimeout(() => {
+        router.push("/admin/management/users");
+      }, 1000);
     }
 
-    try {
+   
     } catch (e) {
       toast.error("something went wrong");
     }

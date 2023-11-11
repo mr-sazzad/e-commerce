@@ -7,6 +7,7 @@ import { SiAmazoncloudwatch } from "react-icons/si";
 import PageSelect from "@/components/admin/PageSelect";
 import UserCard from "@/components/admin/UserCard";
 import { useGetAllUsersQuery } from "@/redux/api/users/userApi";
+import Link from "next/link";
 
 const WatchManagement = () => {
   const { data: users, isLoading } = useGetAllUsersQuery(undefined);
@@ -38,8 +39,9 @@ const WatchManagement = () => {
       <div className="max-w-[1200px] mx-auto mt-10">
         <div className="px-[30px] lg:px-[50px]">
           <div className="flex justify-end">
-            <button
-              className="
+            <Link href="/admin/management/users/add-user">
+              <button
+                className="
                 bg-gray-700 
                 text-white
                 hover:text-black 
@@ -52,9 +54,10 @@ const WatchManagement = () => {
                 px-4
                 py-[5px]
             "
-            >
-              Add New User
-            </button>
+              >
+                Add New User
+              </button>
+            </Link>
           </div>
 
           {/* User cards */}
