@@ -1,7 +1,8 @@
 "use client";
 import BreadCrumb from "@/components/BreadCrumb";
-import MySelect, { OptionType } from "@/components/admin/Select";
+import MySelect from "@/components/admin/Select";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
+import { OptionType } from "@/types";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

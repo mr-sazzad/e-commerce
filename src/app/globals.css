@@ -69,7 +69,6 @@
   
 
   /* admin section */
-
 .new-watch-banner::before {
     content: "";
     position: absolute;
@@ -79,10 +78,23 @@
     height: 100%;
     background: rgba(41, 41, 41, 0.9);
 }
+.new-user-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 41, 41, 0.7);
+}
 
 .new-watch-banner {
     background-image: url("/assets/new-watch-banner.jpg");
     background-repeat: no-repeat;
-    /* background-position: center; */
+    background-size: cover;
+}
+.new-user-banner {
+    background-image: url("/assets/add-user-bg.png");
+    background-repeat: no-repeat;
     background-size: cover;
 }
