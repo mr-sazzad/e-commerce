@@ -38,11 +38,26 @@ const SingleWatchPage = () => {
             </div>
             <div className="flex-1">
               <p className="text-2xl font-semibold">{watch?.title}</p>
-              <p className="text-lg">${watch?.price}</p>
-              <p className="flex items-center gap-1">
-                <BsBookmarkCheck className="text-sm text-green-500" />
-                {watch?.status}
-              </p>
+              <div className="flex justify-between gap-10 items-center">
+                <p className="text-lg">${watch?.price}</p>
+                <p className="flex items-center gap-1">
+                  <BsBookmarkCheck className="text-sm text-green-500" />
+                  {watch?.status}
+                </p>
+              </div>
+              <div>
+                <p className="mt-3 text-lg font-bold text-gray-700">Features</p>
+                <ul>
+                  {watch?.features?.map((feature: string) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="mt-3 text-lg font-bold text-gray-700">
+                  Description
+                </p>
+              </div>
             </div>
           </div>
         </div>
