@@ -1,5 +1,5 @@
-import { KEY, getFromLocalStorage } from "@/helpers/localStorage";
-import { IResponse } from "@/types";
+import { getFromLocalStorage } from "@/helpers/localStorage";
+import { IResponse, KEY } from "@/types";
 import axios from "axios";
 
 export const instance = axios.create();

@@ -36,7 +36,7 @@ const SignUp = () => {
 
       const result: any = await userSignUp(requestedData);
 
-      if (result?.data?.success === false) {
+      if (!result || result?.data?.success === false) {
         toast.error("Something went wrong.");
       } else {
         toast.success("Sign-up successful");

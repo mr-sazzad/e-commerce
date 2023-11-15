@@ -11,6 +11,7 @@ import {
 } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { PiWarningOctagonLight } from "react-icons/pi";
+import { SiStatuspal } from "react-icons/si";
 
 const ProfileInformation = () => {
   const currentUser = getUserFromLocalStorage() as any;
@@ -46,6 +47,10 @@ const ProfileInformation = () => {
       <div className="mb-2 flex gap-2 items-center">
         <BiHomeSmile className="text-gray-500" />
         <p>{user?.address ? user?.address : "Not Set"}</p>
+      </div>
+      <div className="mb-2 flex gap-2 items-center">
+        <SiStatuspal className="text-gray-500" />
+        <p className="text-gray-500 cursor-not-allowed">{user?.role && `Logged in as ${user.role}`}</p>
       </div>
       <div className="mt-5">
         <div className="flex flex-row gap-2 items-center">

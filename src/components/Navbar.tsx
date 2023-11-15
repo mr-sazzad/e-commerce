@@ -1,23 +1,42 @@
 "use client";
-import React, { useState } from "react";
+// "use client";
+import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
-// import { NavbarItems } from "@/constants/menubar";
-// import { getUserFromLocalStorage } from "@/helpers/jwt";
+import { NavbarItems } from "@/constants/menubar";
+import { getUserFromLocalStorage } from "@/helpers/jwt";
+import { removeFromLocalStorage } from "@/helpers/localStorage";
+import { KEY } from "@/types";
+import toast from "react-hot-toast";
 
 const mobileMenuHeight = `calc(100vh - 64px)`;
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!getUserFromLocalStorage()
+  );
 
-  // const currentUser = getUserFromLocalStorage() as any;
+  const currentUser = getUserFromLocalStorage() as any;
 
-  // const menuItems = NavbarItems(currentUser?.role);
+  useEffect(() => {
+    setIsAuthenticated(!!getUserFromLocalStorage());
+  }, [currentUser]);
+
+  let menuItems = NavbarItems(currentUser?.role);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);
+  };
+
+  const handleSignOut = () => {
+    setTimeout(() => {
+      removeFromLocalStorage(KEY);
+      toast.success("User Signed Out");
+      setIsAuthenticated(false);
+    }, 1500);
   };
 
   return (
@@ -27,18 +46,20 @@ const Navbar = () => {
           <Logo />
           <div className="hidden lg:flex">
             <ul className="flex gap-4">
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="/watches">Products</Link>
-              </li>
-              <li>
-                <Link href="/user/cart">Cart</Link>
-              </li>
-              <li>
-                <Link href="/sign-in">Login</Link>
-              </li>
+              {menuItems?.map((item: any) => (
+                <li key={item?.key}>
+                  <Link href={item?.href}>{item?.label}</Link>
+                </li>
+              ))}
+              {isAuthenticated ? (
+                <li>
+                  <button onClick={handleSignOut}>Sign Out</button>
+                </li>
+              ) : (
+                <li>
+                  <Link href="/sign-in">Log In</Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="lg:hidden">
@@ -60,19 +81,24 @@ const Navbar = () => {
         }}
       >
         {open && (
-          <ul className="flex flex-col gap-4 ml-5 pt-5">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/watches">Products</Link>
-            </li>
-            <li>
-              <Link href="/user/cart">Cart</Link>
-            </li>
-            <li>
-              <Link href="/sign-in">Login</Link>
-            </li>
+          <ul className="flex flex-col gap-4 ml-5 pt-5 z-[2000]">
+            {menuItems?.map((item: any) => (
+              <li
+                key={item?.key}
+                className="py-1 px-2 hover:bg-gray-300 w-full"
+              >
+                <Link href={item?.href}>{item?.label}</Link>
+              </li>
+            ))}
+            {isAuthenticated ? (
+              <li className="py-1 px-2 hover:bg-gray-300 w-full">
+                <button onClick={handleSignOut}>Sign Out</button>
+              </li>
+            ) : (
+              <li className="py-1 px-2 hover:bg-gray-300 w-full">
+                <Link href="/sign-in">Log In</Link>
+              </li>
+            )}
           </ul>
         )}
       </div>

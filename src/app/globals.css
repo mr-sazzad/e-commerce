@@ -98,3 +98,10 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
+/* Example CSS */
+.add-watch::placeholder {
+  color: lightcoral;
+  font-style: italic;
+}

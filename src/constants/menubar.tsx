@@ -1,6 +1,34 @@
 import { USER_ROLE } from ".";
 
 export const NavbarItems = (role: string) => {
+  const defaultMenu = [
+    {
+      label: <span>Home</span>,
+      href: `/`,
+      key: `/`,
+    },
+    {
+      label: <span>Watch</span>,
+      href: `/watches`,
+      key: `/watches`,
+    },
+    {
+      label: <span>Cart</span>,
+      href: `/cart`,
+      key: `/cart`,
+    },
+    {
+      label: <span>Blogs</span>,
+      href: `/blogs`,
+      key: `/blogs`,
+    },
+    {
+      label: <span>profile</span>,
+      href: `/profile`,
+      key: `/profile`,
+    },
+  ];
+
   const UserItems = [
     {
       label: <span>Home</span>,
@@ -8,19 +36,42 @@ export const NavbarItems = (role: string) => {
       key: `/`,
     },
     {
-      label: <span>Cart</span>,
-      href: `/${role}/cart`,
-      key: `/${role}/cart`,
+      label: <span>Watch</span>,
+      href: `/watches`,
+      key: `/watches`,
     },
     {
-      label: <span>Watch</span>,
-      href: `/${role}/watches`,
-      key: `/${role}/watches`,
+      label: <span>Cart</span>,
+      href: `/cart`,
+      key: `/cart`,
     },
     {
       label: <span>Blogs</span>,
-      href: `/${role}/blogs`,
-      key: `/${role}/blogs`,
+      href: `/blogs`,
+      key: `/blogs`,
+    },
+    {
+      label: <span>profile</span>,
+      href: `/profile`,
+      key: `/profile`,
+    },
+  ];
+
+  const AdminItems = [
+    {
+      label: <span>Manage User</span>,
+      href: `/${role}/management/user`,
+      key: `/${role}/management/user`,
+    },
+    {
+      label: <span>Manage Service</span>,
+      href: `/${role}/management/watches`,
+      key: `/${role}/management/watches`,
+    },
+    {
+      label: <span>Manage Content</span>,
+      href: `/${role}/management/blog`,
+      key: `/${role}/management/blog`,
     },
     {
       label: <span>profile</span>,
@@ -29,34 +80,11 @@ export const NavbarItems = (role: string) => {
     },
   ];
 
-  const AdminItems = [
-    {
-      label: <span>User Management</span>,
-      href: `/${role}/management/user`,
-      key: `/${role}/management/user`,
-    },
-    {
-      label: <span>Service Management</span>,
-      href: `/${role}/management/watches`,
-      key: `/${role}/management/watches`,
-    },
-    {
-      label: <span>Content Management</span>,
-      href: `/${role}/management/blog`,
-      key: `/${role}/management/blog`,
-    },
-    {
-      label: <span>profile Management</span>,
-      href: `/${role}/profile`,
-      key: `/${role}/profile`,
-    },
-  ];
-
   const SuperAdminItems = [
     {
       label: <span>profile Management</span>,
-      href: `/${role}/profile`,
-      key: `/${role}/profile`,
+      href: `/profile`,
+      key: `/profile`,
     },
     {
       label: <span>Manage Admins</span>,
@@ -68,4 +96,5 @@ export const NavbarItems = (role: string) => {
   if (role === USER_ROLE.USER) return UserItems;
   else if (role === USER_ROLE.ADMIN) return AdminItems;
   else if (role === USER_ROLE.SUPER_ADMIN) return SuperAdminItems;
+  else return defaultMenu;
 };

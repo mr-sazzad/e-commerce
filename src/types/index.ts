@@ -1,3 +1,5 @@
+export const KEY = "access-token";
+
 export interface IMeta {
   total: number;
   page: number;

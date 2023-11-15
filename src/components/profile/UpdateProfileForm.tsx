@@ -48,12 +48,20 @@ const UpdateProfileForm = ({
       };
 
       const userId = user?.id;
-      const result = await updateCurrentUser({ id: userId, ...updateUserData });
-      if (result) {
+      const result: any = await updateCurrentUser({
+        id: userId,
+        ...updateUserData,
+      });
+      if (result?.data?.success !== false) {
         setLoading(false);
         toast.success("information Updated !");
-        setToggle("in-active");
-        setToLocalStorage("editMode", "in-active");
+        setTimeout(() => {
+          setToggle("in-active");
+          setToLocalStorage("editMode", "in-active");
+        }, 1000);
+      } else {
+        setLoading(false);
+        toast.error("something went wrong");
       }
     } catch (err: any) {
       setLoading(false);

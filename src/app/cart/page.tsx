@@ -9,8 +9,6 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 import { BiSolidQuoteAltLeft } from "react-icons/bi";
-
-// stripe js
 import { loadStripe } from "@stripe/stripe-js";
 import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/navigation";
@@ -29,12 +27,17 @@ const Cart = () => {
   );
 
   useEffect(() => {
+    if (!currentUser) {
+      // Redirect to login if user is not logged in
+      router.push("/sign-in");
+    }
+
     if (cartProducts && cartProducts.length <= 0) {
       setDisable(true);
     }
-  }, [cartProducts]);
+  }, [cartProducts, currentUser]);
 
-  if (isLoading) {
+  if (!currentUser || isLoading) {
     return <Loading />;
   }
 
@@ -51,28 +54,14 @@ const Cart = () => {
   const handleCheckOut = async () => {
     const stripe = await loadStripe(stripeKey);
     try {
-      // console.log("hello");
       const result: any = await stripePayment(cartProducts);
 
       if (result) {
-        // console.log(result, "result");
         router.push(result.url);
       }
     } catch (err) {
       console.error(err, "payment error");
     }
-
-    // const data = await fetch(
-    //   "http://localhost:3007/api/v1/payment/create-checkout-session",{
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     // body: JSON.stringify(cartProducts),
-    //   }
-    // );
-    // const result = await data.json();
-    // console.log(result, "result");
   };
 
   return (

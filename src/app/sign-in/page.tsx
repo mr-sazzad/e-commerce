@@ -11,23 +11,27 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const SignIn = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginCredentials>();
-  const [loginUser, { isError }] = useLoginUserMutation();
-  const router = useRouter();
+  const [loginUser, { isError, isLoading }] = useLoginUserMutation();
 
   const onSubmit = async (data: ILoginCredentials) => {
     try {
       const result: any = await loginUser(data);
-      if (result?.data?.success === false) {
-        toast.error("something went wrong");
-      } else {
+
+      // Check if 'error' property exists in the result.data object
+      if (result?.data?.error) {
+        toast.error("Something went wrong during login.");
+      } else if (result?.data?.success !== false) {
         setToLocalStorage("access-token", result?.data);
         toast.success("User signed in");
-        router.back();
+        router.push("/");
+      } else {
+        toast.error("Something went wrong during login.");
       }
     } catch (error) {
       toast.error("Failed to sign in.");
@@ -93,7 +97,7 @@ const SignIn = () => {
               className="p-2 bg-gray-200 hover:bg-gray-900 hover:text-white transition duration-1000"
               type="submit"
             >
-              Sign in
+              {isLoading ? "Loading ..." : "Sign in"}
             </button>
           </form>
           <div className="mt-5 flex gap-1 items-center">

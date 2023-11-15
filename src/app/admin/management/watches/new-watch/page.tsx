@@ -2,15 +2,24 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import MySelect from "@/components/admin/Select";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
+import { useUploadWatchMutation } from "@/redux/api/watches/watchApi";
 import { OptionType } from "@/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { BsArrowRightShort } from "react-icons/bs";
 
 const NewWatch = () => {
+  const router = useRouter();
+  const [watchImage, setWatchImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Available");
+
+  const [uploadWatch] = useUploadWatchMutation();
+
   const { handleSubmit, register } = useForm();
 
   const handleSelectChange = (selectedOption: OptionType | null) => {
@@ -21,21 +30,42 @@ const NewWatch = () => {
 
   const onSubmit = async (data: any) => {
     let image = "";
-    if (data.image) {
-      image = await UploadImageToImageBB(data.image[0]);
+
+    try {
+      setLoading(true);
+      if (data.image && data.image[0]) {
+        image = await UploadImageToImageBB(data.image[0]);
+      }
+
+      // Assuming features is a string separated by commas (you can adjust the delimiter)
+      const featuresArray = data.features.split(",");
+
+      const createdData = {
+        title: data.title,
+        price: Number(data.price),
+        image: image,
+        status: status,
+        features: featuresArray,
+        desc: data.description,
+      };
+
+      const result: any = await uploadWatch(createdData);
+
+      if (result?.data?.success !== false) {
+        setLoading(false);
+        toast.success("Watch Added");
+        setTimeout(() => {
+          router.push("/admin/management/watches");
+        }, 500);
+      }
+    } catch (e) {
+      console.log("Error ", e);
+      setLoading(false);
+      toast.error("something went wrong");
     }
-
-    const createdData = {
-      title: data.title,
-      price: data.price,
-      image: image,
-      status: data.status,
-      features: data.features,
-      description: data.description,
-    };
-
-    console.log(createdData, "create New Watch");
+    setLoading(false);
   };
+
   return (
     <div>
       <BreadCrumb
@@ -106,12 +136,16 @@ const NewWatch = () => {
                         {...register("image")}
                         id="imageUpload"
                         className="opacity-0 w-full h-full absolute inset-0 cursor-pointer"
+                        onChange={(e) =>
+                          e.target.files &&
+                          setWatchImage(e.target.files[0].name)
+                        }
                       />
                       <label
                         htmlFor="imageUpload"
                         className="w-full px-3 py-2 text-center cursor-pointer"
                       >
-                        Choose a file
+                        {watchImage || "Choose a file"}
                       </label>
                     </div>
                   </div>
@@ -127,8 +161,8 @@ const NewWatch = () => {
                   <textarea
                     rows={4}
                     {...register("features")}
-                    className="p-3 border border-gray-400 outline-none"
-                    placeholder="separated by Quama"
+                    className="p-3 border border-gray-400 outline-none add-watch"
+                    placeholder="Enter features separated by commas"
                   />
                 </div>
 
@@ -157,7 +191,7 @@ const NewWatch = () => {
                   hover:shadow
                 "
                 >
-                  Add New Watch
+                  {loading ? "Loading..." : "Add New Watch"}
                 </button>
               </form>
             </div>

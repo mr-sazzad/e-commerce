@@ -2,21 +2,30 @@
 
 import Loading from "@/app/loading";
 import BreadCrumb from "@/components/BreadCrumb";
-import MySelect, { OptionType } from "@/components/admin/Select";
+import MySelect from "@/components/admin/Select";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
-import { useGetSingleWatchQuery } from "@/redux/api/watches/watchApi";
+import {
+  useGetSingleWatchQuery,
+  useUpdateSingleWatchMutation,
+} from "@/redux/api/watches/watchApi";
+import { OptionType } from "@/types";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { BsArrowRightShort } from "react-icons/bs";
 
 const EditWatch = () => {
   const { register, handleSubmit } = useForm();
   const [status, setStatus] = useState("Available");
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   const { data: watch, isLoading } = useGetSingleWatchQuery(id);
+  const [updateSingleWatch] = useUpdateSingleWatchMutation();
+
   console.log(watch, "watch");
 
   const handleSelectChange = (selectedOption: OptionType | null) => {
@@ -27,20 +36,35 @@ const EditWatch = () => {
 
   const onSubmit = async (data: any) => {
     let image = "";
-    if (data?.image) {
-      image = await UploadImageToImageBB(data.image[0]);
+
+    const featuresArray = data.features.split(",");
+
+    try {
+      setLoading(true);
+      if (data?.image && data.image[0]) {
+        image = await UploadImageToImageBB(data.image[0]);
+      }
+
+      const updatedData = {
+        title: data.title || watch?.title,
+        price: Number(data.price) || watch?.price,
+        image: image || watch?.image,
+        status: status || watch?.status,
+        features: featuresArray || watch?.features,
+        desc: data.description || watch?.description,
+      };
+
+      const result: any = await updateSingleWatch({ id, ...updatedData });
+
+      if (result?.data?.success !== false) {
+        setLoading(false);
+        toast.success("Watch Updated");
+      }
+    } catch (e) {
+      setLoading(false);
+      toast.error("something went wrong !");
     }
-
-    const updatedData = {
-      title: data.title || watch?.title,
-      price: data.price || watch?.price,
-      description: data.description || watch?.description,
-      image: image || watch?.image,
-      status: status || watch?.status,
-      features: data.features || watch?.features,
-    };
-
-    // edit mutation code
+    setLoading(false);
   };
 
   if (isLoading) {
@@ -60,10 +84,13 @@ const EditWatch = () => {
             <div className="flex flex-col">
               <h2 className="text-4xl font-semibold text-gray-600">Edit</h2>
               <h2 className="text-4xl font-semibold text-gray-600">Watch</h2>
-              <div className="flex gap-1 items-center cursor-pointer group">
+              <Link
+                href="/admin/management/watches"
+                className="flex gap-1 items-center cursor-pointer group"
+              >
                 <p className="hover:underline">Go To Watches</p>{" "}
                 <BsArrowRightShort className="group-hover:translate-x-1 duration-300" />
-              </div>
+              </Link>
             </div>
           </div>
           <div className="flex-1">
@@ -82,6 +109,7 @@ const EditWatch = () => {
                   <input
                     type="text"
                     {...register("title")}
+                    defaultValue={watch.title}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
                 </div>
@@ -91,6 +119,7 @@ const EditWatch = () => {
                   </label>
                   <input
                     type="number"
+                    defaultValue={watch.price}
                     {...register("price")}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
@@ -120,9 +149,10 @@ const EditWatch = () => {
                 </label>
                 <textarea
                   rows={4}
+                  defaultValue={watch.features}
                   {...register("features")}
                   className="p-3 border border-gray-400 outline-none"
-                  placeholder="separated by Quama"
+                  placeholder="Separated By Comma"
                 />
               </div>
               <div className="flex flex-col gap-1 w-full text-gray-500 relative">
@@ -131,6 +161,7 @@ const EditWatch = () => {
                 </label>
                 <textarea
                   rows={4}
+                  defaultValue={watch.desc}
                   {...register("description")}
                   className="p-3 border border-gray-400 outline-none"
                 />
@@ -150,7 +181,7 @@ const EditWatch = () => {
                   hover:shadow
                 "
               >
-                Update Watch Now
+                {loading ? "Loading ..." : "Update Watch Now"}
               </button>
             </form>
           </div>
