@@ -56,8 +56,10 @@ const Cart = () => {
     try {
       const result: any = await stripePayment(cartProducts);
 
+      console.log(result, "Payment Result");
+
       if (result) {
-        router.push(result.url);
+        router.push(result.data);
       }
     } catch (err) {
       console.error(err, "payment error");

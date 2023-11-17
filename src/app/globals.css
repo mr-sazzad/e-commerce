@@ -105,3 +105,11 @@
   color: lightcoral;
   font-style: italic;
 }
+
+/* Divider class */
+.divider {
+  margin-top: 8px;
+  border-top: 1px solid #adacac;
+  flex-grow: 1;
+}
+

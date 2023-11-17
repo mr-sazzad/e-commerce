@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { ImEye } from "react-icons/im";
+import AddToCart from "./buttons/AddToCart";
 
 const RecentCard = (watch: any) => {
   const [hovered, setHovered] = useState(false);
@@ -50,12 +52,12 @@ const RecentCard = (watch: any) => {
           />
           {hovered && (
             <div className="absolute bottom-0 w-full flex justify-center pb-4 transition duration-300 ease-in-out">
-              <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
-                <AiOutlineShoppingCart />
-              </button>
-              <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
-                <ImEye />
-              </button>
+              <AddToCart watch={watch} />
+              <Link href={`/watches/${watch.id}`}>
+                <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
+                  <ImEye />
+                </button>
+              </Link>
               <button className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white">
                 <AiOutlineHeart />
               </button>

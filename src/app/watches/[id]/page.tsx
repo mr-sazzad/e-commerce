@@ -2,6 +2,7 @@
 
 import Loading from "@/app/loading";
 import BreadCrumb from "@/components/BreadCrumb";
+import Divider from "@/components/Divider";
 import { useGetSingleWatchQuery } from "@/redux/api/watches/watchApi";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -39,7 +40,7 @@ const SingleWatchPage = () => {
             <div className="flex-1">
               <p className="text-2xl font-semibold">{watch?.title}</p>
               <div className="flex justify-between gap-10 items-center">
-                <p className="text-lg">${watch?.price}</p>
+                <p className="text-lg ml-2">${watch?.price}</p>
                 <p className="flex items-center gap-1">
                   <BsBookmarkCheck className="text-sm text-green-500" />
                   {watch?.status}
@@ -47,9 +48,15 @@ const SingleWatchPage = () => {
               </div>
               <div>
                 <p className="mt-3 text-lg font-bold text-gray-700">Features</p>
-                <ul>
+                <ul className="ml-2">
                   {watch?.features?.map((feature: string) => (
-                    <li key={feature}>{feature}</li>
+                    <div
+                      key={feature}
+                      className="flex gap-1 flex-row items-center"
+                    >
+                      <div className="w-2 h-1 bg-gray-400 rounded-xl mt-1" />
+                      <li>{feature}</li>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -57,17 +64,13 @@ const SingleWatchPage = () => {
                 <p className="mt-3 text-lg font-bold text-gray-700">
                   Description
                 </p>
+                <p className="ml-2">{watch.desc}</p>
               </div>
             </div>
           </div>
         </div>
         <div className="my-10">
-          <div>
-            <p className="text-lg font-semibold text-gray-800">
-              Our Customer Reviews
-            </p>
-            <div />
-          </div>
+          <Divider firstLetter="C" secondWard="ustomer Reviews" />
         </div>
       </div>
     </div>

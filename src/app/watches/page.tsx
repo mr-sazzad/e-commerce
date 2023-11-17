@@ -129,7 +129,7 @@ const Page = () => {
           <div className="w-full">
             <div className="w-full h-[60px] border border-[#f6d7ad] mb-4 flex items-center">
               <div className="flex justify-between items-center w-full px-5">
-                <div className="flex gap-0">
+                <div className="flex gap-0 cursor-pointer">
                   <TfiLayoutGrid3Alt
                     className={`p-2 border border-r-0 h-[35px] w-[35px] border-[#f9ddb9] text-[#9F7A49] ${
                       gridActive === "true"

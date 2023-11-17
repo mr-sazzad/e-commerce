@@ -16,9 +16,12 @@ const CartItem = (item: ICartItem) => {
 
   const handleDelete = async (item: any) => {
     try {
-      // console.log(item?.id);
-      const result = await deleteSingleFromCart(item?.id);
-      toast.success("item deleted");
+      const result: any = await deleteSingleFromCart(item?.id);
+      if (result?.data?.success !== false) {
+        toast.success("item deleted");
+      } else {
+        toast.error("something went wrong");
+      }
     } catch (err) {
       toast.error("something went wrong");
     }

@@ -42,8 +42,6 @@ const AddToCart = ({ watch }: { watch: IWatch }) => {
           return item.watchId === watch.id;
         });
 
-        console.log(existingProduct, "existing product");
-
         if (existingProduct) {
           const updatedCartItem = {
             userId: existingProduct.userId,
@@ -59,7 +57,7 @@ const AddToCart = ({ watch }: { watch: IWatch }) => {
           });
 
           if (result?.data?.success !== false) {
-            toast.success("Your cart has been updated");
+            toast.success("Your Cart has been updated");
           }
         } else {
           const addToCartData = {
@@ -73,12 +71,17 @@ const AddToCart = ({ watch }: { watch: IWatch }) => {
           }
 
           if (watch.status === "Available") {
-            await addToCart(addToCartData);
-            toast.success("Product Added To Cart");
+            const result: any = await addToCart(addToCartData);
+            if (result?.data?.success !== false) {
+              toast.success("Product Added To Cart");
+            } else {
+              toast.error("something went wrong");
+            }
           }
         }
       }
     } catch (error) {
+      toast.error("something went wrong");
       console.error("Error fetching or updating user data:", error);
     }
   };
