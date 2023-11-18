@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/app/loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
 import Image from "next/image";
@@ -10,6 +9,7 @@ import ProfileInformation from "@/components/profile/ProfileInformation";
 import Inactive from "@/components/profile/Inactive";
 import UpdateProfileForm from "@/components/profile/UpdateProfileForm";
 import { useRouter } from "next/navigation";
+import Loading from "../Loading";
 
 // Define the UserData interface
 interface UserData {

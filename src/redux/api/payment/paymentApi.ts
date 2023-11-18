@@ -13,21 +13,12 @@ const paymentApi = baseApi.injectEndpoints({
     }),
 
     getAllPayments: build.query({
-      query: () => ({
-        url: "/payment",
+      query: (id) => ({
+        url: `/payment/${id}`,
         method: "GET",
       }),
       providesTags: [tagTypes.payment],
     }),
-
-    // getAllRecentPayments: build.query({
-    //   query: (limit) => ({
-    //     url: "/payment",
-    //     method: "GET",
-    //     limit,
-    //   }),
-    //   providesTags: [tagTypes.payment],
-    // }),
 
     updateStatus: build.mutation({
       query: (id) => ({
@@ -43,5 +34,4 @@ export const {
   useStripePaymentMutation,
   useUpdateStatusMutation,
   useGetAllPaymentsQuery,
-  // useGetAllRecentPaymentsQuery,
 } = paymentApi;

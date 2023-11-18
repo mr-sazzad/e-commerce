@@ -16,7 +16,7 @@ const WatchCard = (watch: any) => {
 
   return (
     <div
-      className={`flex flex-row items-center w-full gap-3 relative border border-gray-200 hover:shadow transition ${
+      className={`flex flex-row items-center w-full gap-3 relative border border-gray-200 mb-10 hover:shadow transition ${
         active ? "flex-col w-[260px] sm:w-[240px]" : ""
       }`}
       onMouseEnter={() => setHovered(true)}
@@ -24,7 +24,7 @@ const WatchCard = (watch: any) => {
     >
       <div className="p-1 relative group">
         <div
-          className={`w-[250px] sm:w-[230px] h-[250px] relative overflow-hidden ${
+          className={`w-[250px] sm:w-[230px] h-[220px] relative overflow-hidden ${
             active ? "w-[256px] sm:w-[236px]" : ""
           }`}
         >
@@ -32,7 +32,7 @@ const WatchCard = (watch: any) => {
             src={watch.image}
             alt={watch.title}
             fill
-            objectFit="cover"
+            objectFit="contain"
             className="p-2"
           />
           {hovered && (

@@ -39,7 +39,7 @@ const UpcomingCard = (watch: any) => {
             src={watch.image}
             alt={watch.title}
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
           />
         </div>
       </div>

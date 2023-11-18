@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import MySelect from "@/components/admin/Select";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";

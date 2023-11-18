@@ -1,4 +1,4 @@
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
 import React from "react";
@@ -50,7 +50,9 @@ const ProfileInformation = () => {
       </div>
       <div className="mb-2 flex gap-2 items-center">
         <SiStatuspal className="text-gray-500" />
-        <p className="text-gray-500 cursor-not-allowed">{user?.role && `Logged in as ${user.role}`}</p>
+        <p className="text-gray-500 cursor-not-allowed">
+          {user?.role && `Logged in as ${user.role}`}
+        </p>
       </div>
       <div className="mt-5">
         <div className="flex flex-row gap-2 items-center">

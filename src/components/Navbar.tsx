@@ -14,12 +14,18 @@ import toast from "react-hot-toast";
 const mobileMenuHeight = `calc(100vh - 64px)`;
 
 const Navbar = () => {
+  const [userKey, setUserKey] = useState(0);
+
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!getUserFromLocalStorage()
   );
 
   const currentUser = getUserFromLocalStorage() as any;
+
+  useEffect(() => {
+    setIsAuthenticated(!!getUserFromLocalStorage());
+  }, [currentUser, userKey]);
 
   useEffect(() => {
     setIsAuthenticated(!!getUserFromLocalStorage());
@@ -36,6 +42,7 @@ const Navbar = () => {
       removeFromLocalStorage(KEY);
       toast.success("User Signed Out");
       setIsAuthenticated(false);
+      setUserKey((prevKey) => prevKey + 1);
     }, 1500);
   };
 

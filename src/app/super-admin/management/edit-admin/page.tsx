@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Loading from "@/app/loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SiAmazoncloudwatch } from "react-icons/si";
 import PageSelect from "@/components/admin/PageSelect";
 import UserCard from "@/components/admin/UserCard";
 import { useGetAllUsersQuery } from "@/redux/api/users/userApi";
 import Link from "next/link";
+import Loading from "@/app/Loading";
 
 const WatchManagement = () => {
   const { data: users, isLoading } = useGetAllUsersQuery(undefined);

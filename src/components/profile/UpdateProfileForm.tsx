@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { setToLocalStorage } from "@/helpers/localStorage";

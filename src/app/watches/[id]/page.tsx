@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import Divider from "@/components/Divider";
 import { useGetSingleWatchQuery } from "@/redux/api/watches/watchApi";

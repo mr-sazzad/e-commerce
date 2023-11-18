@@ -1,17 +1,21 @@
 "use client";
 
-import Loading from "@/app/loading";
 import CartItem from "@/components/CartItem";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
-import { useGetAllFromCartQuery } from "@/redux/api/cart/cartApi";
+import {
+  useGetAllFromCartQuery,
+  useRemoveAllFromCartMutation,
+} from "@/redux/api/cart/cartApi";
 import { useStripePaymentMutation } from "@/redux/api/payment/paymentApi";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
-
-import { BiSolidQuoteAltLeft } from "react-icons/bi";
 import { loadStripe } from "@stripe/stripe-js";
 import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/navigation";
+import Loading from "../Loading";
+import { setToLocalStorage } from "@/helpers/localStorage";
+
+import { BiSolidQuoteAltLeft } from "react-icons/bi";
+import { HiMiniArrowSmallRight } from "react-icons/hi2";
 
 const stripeKey =
   "pk_test_51O7I6YSHcqDbqznpElzunzfMsBFHFu6tog3M1UGhXBb5DcqO15sSsbshWIewrqyLC7kOVmpb0aP2L2iFVwJ672ef00llYTcNGY";
@@ -20,6 +24,7 @@ const Cart = () => {
   const currentUser = getUserFromLocalStorage() as any;
   const [disable, setDisable] = useState(false);
   const [stripePayment] = useStripePaymentMutation();
+  const [removeAllFromCart] = useRemoveAllFromCartMutation();
   const router = useRouter();
 
   const { data: cartProducts, isLoading } = useGetAllFromCartQuery(
@@ -28,7 +33,6 @@ const Cart = () => {
 
   useEffect(() => {
     if (!currentUser) {
-      // Redirect to login if user is not logged in
       router.push("/sign-in");
     }
 
@@ -56,10 +60,12 @@ const Cart = () => {
     try {
       const result: any = await stripePayment(cartProducts);
 
-      console.log(result, "Payment Result");
-
       if (result) {
-        router.push(result.data);
+        setToLocalStorage("sessionId", result?.data?.sessionId);
+        setTimeout(async () => {
+          router.push(result?.data?.sessionUrl);
+          await removeAllFromCart(currentUser?.id);
+        }, 500);
       }
     } catch (err) {
       console.error(err, "payment error");
@@ -87,6 +93,7 @@ const Cart = () => {
               <p>Total Amount: ${totalAmount}</p>
             </div>
           </div>
+
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-5 text-center">Checkout</h2>
             <div className="relative">
@@ -97,7 +104,24 @@ const Cart = () => {
                 quantity of the item you wish to purchase.
               </p>
             </div>
-            <div className="flex justify-end my-10">
+            <div className="flex justify-end gap-5 my-10">
+              <div className="">
+                <button
+                  className="flex flex-row gap-1 items-center bg-gray-600 text-white px-5 py-2 border group"
+                  onClick={() => router.push("/orders")}
+                >
+                  <p className="">See All Orders</p>
+                  <HiMiniArrowSmallRight
+                    className="animate-bounce"
+                    style={{
+                      animationDuration: "1.5s",
+                      animationIterationCount: "infinite",
+                      animationTimingFunction: "ease",
+                    }}
+                  />
+                </button>
+              </div>
+
               <button
                 onClick={handleCheckOut}
                 className={`

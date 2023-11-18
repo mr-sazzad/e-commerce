@@ -2,7 +2,7 @@
 import React from "react";
 import UpcomingCard from "./UpcomingCard";
 import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 
 const Upcoming = () => {
   const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);

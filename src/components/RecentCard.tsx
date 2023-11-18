@@ -48,7 +48,7 @@ const RecentCard = (watch: any) => {
             src={watch.image}
             alt={watch.title}
             layout="fill"
-            objectFit="cover"
+            objectFit="contain"
           />
           {hovered && (
             <div className="absolute bottom-0 w-full flex justify-center pb-4 transition duration-300 ease-in-out">

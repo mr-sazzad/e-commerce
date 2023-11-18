@@ -1,7 +1,7 @@
 "use client";
 
 // Import necessary modules and components
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
 import Image from "next/image";

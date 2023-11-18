@@ -2,12 +2,11 @@
 
 import SortBySection from "@/components/SortBy";
 import WatchCard from "@/components/WatchCard";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { TfiLayoutGrid3Alt, TfiMenuAlt } from "react-icons/tfi";
-import Loading from "../loading";
 import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
 import BreadCrumb from "@/components/BreadCrumb";
+import Loading from "../Loading";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);

@@ -113,3 +113,16 @@
   flex-grow: 1;
 }
 
+/* animate the arrow of cart page */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.5rem);
+  }
+  100%{
+    transform: translateX(0)
+  }
+}
+

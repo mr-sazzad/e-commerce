@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import {
   useAddToCartMutation,

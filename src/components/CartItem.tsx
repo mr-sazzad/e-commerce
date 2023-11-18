@@ -1,4 +1,4 @@
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import {
   useDeleteSingleFromCartMutation,
   useGetSingleFromCartQuery,

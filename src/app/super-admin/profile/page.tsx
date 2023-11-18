@@ -1,7 +1,6 @@
 "use client";
 
 // Import necessary modules and components
-import Loading from "@/app/loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
 import Image from "next/image";
@@ -11,6 +10,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import ProfileInformation from "@/components/profile/ProfileInformation";
 import Inactive from "@/components/profile/Inactive";
 import UpdateProfileForm from "@/components/profile/UpdateProfileForm";
+import Loading from "@/app/Loading";
 
 // Define the UserData interface
 interface UserData {
