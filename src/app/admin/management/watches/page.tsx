@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import AdminWatchCard from "@/components/admin/AdminWatchCard";
 import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";

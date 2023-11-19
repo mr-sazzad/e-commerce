@@ -2,16 +2,21 @@
 
 import BreadCrumb from "@/components/BreadCrumb";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
+import { useCreateSingleReviewMutation } from "@/redux/api/reviews/reviewsApi";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { MdStarHalf, MdOutlineStarPurple500 } from "react-icons/md";
 import { TbSend } from "react-icons/tb";
 
 const Review = () => {
   const router = useRouter();
+  const { id } = useParams();
+
+  const [createSingleReview] = useCreateSingleReviewMutation();
   const currentUser = getUserFromLocalStorage() as any;
   const [rating, setRating] = useState<number>(3.5);
 
@@ -19,11 +24,34 @@ const Review = () => {
     setRating(newRating);
   };
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(`Submitted review with rating: ${rating}`);
-    console.log(data, "formData");
+  const onSubmit = async (data: any) => {
+    try {
+      if (currentUser.role !== "user") {
+        toast.error("only user is allowed to submit review");
+      }
+
+      const requestedData = {
+        userId: currentUser.id,
+        watchId: id,
+        rating,
+        review: data.review,
+      };
+
+      const result: any = await createSingleReview(requestedData);
+
+      if (result?.data?.success !== false) {
+        toast.success("Review Added");
+        reset();
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      }
+    } catch (err) {
+      toast.error("something went wrong");
+    }
   };
 
   if (!currentUser) {

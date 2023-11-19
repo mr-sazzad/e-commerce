@@ -3,7 +3,7 @@
 import React from "react";
 import RecentCard from "./RecentCard";
 import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 
 const Recent = () => {
   const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);

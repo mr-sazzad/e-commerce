@@ -3,22 +3,29 @@
 import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import Divider from "@/components/Divider";
+import RatingToStar from "@/components/RatingToStart";
+import { breakpointColumnsObj } from "@/constants/masonry";
+import { useGetAllReviewsQuery } from "@/redux/api/reviews/reviewsApi";
 import { useGetSingleWatchQuery } from "@/redux/api/watches/watchApi";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React from "react";
 
 import { BsBookmarkCheck } from "react-icons/bs";
+import Masonry from "react-masonry-css";
 
 const SingleWatchPage = () => {
   const { id } = useParams();
+  const { data: reviews, isLoading: isReviewsLoading } =
+    useGetAllReviewsQuery(id);
   const { data: watch, isLoading } = useGetSingleWatchQuery(id);
 
-  console.log(watch, "watch");
-
-  if (isLoading) {
+  if (isLoading || isReviewsLoading) {
     return <Loading />;
   }
+
+  console.log(reviews, "all reviews");
+
   return (
     <div>
       <BreadCrumb
@@ -71,6 +78,49 @@ const SingleWatchPage = () => {
         </div>
         <div className="my-10">
           <Divider firstLetter="C" secondWard="ustomer Reviews" />
+
+          <div className="mt-5 mx-auto">
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {reviews.map((review: any) => (
+                <div key={review.id} className="flex flex-col gap-3 p-5">
+                  <div className="flex flex-row justify-between">
+                    <div className="">
+                      <div className="flex flex-row gap-2 items-center">
+                        <div className="relative h-[50px] w-[50px]">
+                          <Image
+                            src={
+                              review?.author?.image
+                                ? review?.author?.image
+                                : "/assets/placeholder.png"
+                            }
+                            alt="author image"
+                            fill
+                            objectFit="contain"
+                          />
+                        </div>
+                        <div>
+                          <p>{review?.author?.name}</p>
+                          <p className="text-sm">
+                            {new Date(review?.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="">
+                      <RatingToStar rating={review?.rating} />
+                    </div>
+                  </div>
+                  <div>
+                    <p>{review?.review}</p>
+                  </div>
+                </div>
+              ))}
+            </Masonry>
+          </div>
         </div>
       </div>
     </div>

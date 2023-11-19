@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SiAmazoncloudwatch } from "react-icons/si";
 import PageSelect from "@/components/admin/PageSelect";
