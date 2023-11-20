@@ -4,6 +4,7 @@ import { Jura } from "next/font/google";
 import "./globals.css";
 import Providers from "@/hooks/providers";
 import ToasterContext from "@/context/ToasterContext";
+import Footer from "@/components/Footer";
 
 const inter = Jura({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <ToasterContext />
           <Navbar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

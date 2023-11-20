@@ -1,4 +1,4 @@
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { setToLocalStorage } from "@/helpers/localStorage";
 import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
