@@ -2,16 +2,17 @@
 
 import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useGetAllPaymentsQuery } from "@/redux/api/payment/paymentApi";
+import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
+import { useRouter } from "next/navigation";
 import Loading from "../Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import Image from "next/image";
-import { useGetCurrentUserQuery } from "@/redux/api/users/userApi";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 const Orders = () => {
-  const router = useRouter();
   const currentUser = getUserFromLocalStorage() as any;
+  const router = useRouter();
 
   if (!currentUser) {
     router.push("/sign-in");
@@ -29,9 +30,6 @@ const Orders = () => {
   if (isLoading || isUserLoading) {
     return <Loading />;
   }
-
-  console.log(orders, "orders");
-  console.log(user, "user");
 
   return (
     <>
@@ -138,4 +136,6 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default dynamic(() => Promise.resolve(Orders), {
+  ssr: false,
+});

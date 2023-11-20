@@ -5,7 +5,7 @@ export const getUserFromLocalStorage = (): JwtPayload | undefined => {
   const token = getFromLocalStorage("access-token") as string;
 
   if (!token) {
-    console.error("Token is undefined or empty.");
+    console.log("Token is undefined or empty.");
     return undefined;
   }
 
