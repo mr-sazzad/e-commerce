@@ -73,7 +73,7 @@ const Blogs = () => {
             <div className="flex justify-center gap-5 flex-col sm:flex-row sm:flex-wrap w-full">
               {blogs && blogs.length > 0 ? (
                 currentBlogs.map((blog: any) => (
-                  <UserCard key={blog.id} {...blog} /> //blog Card
+                  <UserCard key={blog.id} {...blog} />
                 ))
               ) : (
                 <div className="flex justify-center items-center text-gray-400">
