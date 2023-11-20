@@ -16,6 +16,7 @@ import { setToLocalStorage } from "@/helpers/localStorage";
 
 import { BiSolidQuoteAltLeft } from "react-icons/bi";
 import { HiMiniArrowSmallRight } from "react-icons/hi2";
+import { AiFillHeart } from "react-icons/ai";
 
 const stripeKey =
   "pk_test_51O7I6YSHcqDbqznpElzunzfMsBFHFu6tog3M1UGhXBb5DcqO15sSsbshWIewrqyLC7kOVmpb0aP2L2iFVwJ672ef00llYTcNGY";
@@ -107,7 +108,23 @@ const Cart = () => {
             <div className="flex justify-end gap-5 my-10">
               <div className="">
                 <button
-                  className="flex flex-row gap-1 items-center bg-gray-600 text-white px-5 py-2 border group"
+                  className="flex flex-row gap-1 items-center text-gray-600 px-5 py-2 border group border-gray-600 font-bold hover:bg-gray-600 hover:text-white transition duration-300"
+                  onClick={() => router.push("/wishlist")}
+                >
+                  <p className="">wishlists</p>
+                  <AiFillHeart
+                    className="animate-bounce text-rose-500"
+                    style={{
+                      animationDuration: "1.5s",
+                      animationIterationCount: "infinite",
+                      animationTimingFunction: "ease",
+                    }}
+                  />
+                </button>
+              </div>
+              <div className="">
+                <button
+                  className="flex flex-row gap-1 items-center text-gray-600 px-5 py-2 border group border-gray-600 font-bold hover:bg-gray-600 hover:text-white transition duration-300"
                   onClick={() => router.push("/orders")}
                 >
                   <p className="">See All Orders</p>
