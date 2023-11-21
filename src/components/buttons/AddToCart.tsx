@@ -33,7 +33,7 @@ const AddToCart = ({ watch }: { watch: IWatch }) => {
     // Fetch the latest user data, including the cart
     try {
       const response = await fetch(
-        `https://watch-server-two.vercel.app/api/v1/users/${currentUser?.id}`
+        `https://watch-shop-site.vercel.app/api/v1/users/${currentUser?.id}`
       );
       const updatedUser = await response.json();
 
