@@ -34,7 +34,7 @@ const WatchManagement = () => {
 
   return (
     <div>
-      <BreadCrumb current="User Management" redirectTo="Home" link="/" />
+      <BreadCrumb current="Admin Management" redirectTo="Home" link="/" />
 
       <div className="max-w-[1200px] mx-auto mt-10">
         <div className="px-[30px] lg:px-[50px]">
@@ -82,7 +82,7 @@ const WatchManagement = () => {
                       <SiAmazoncloudwatch /> SORRY
                     </p>
                     <h2 className="text-2xl font-semibold">
-                      No Users To Display
+                      No Admins To Display
                     </h2>
                   </div>
                 </div>
