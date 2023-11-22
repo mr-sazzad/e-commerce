@@ -57,12 +57,12 @@ const AddNewAdmin = () => {
       const result: any = await userSignUp(requestedData);
 
       if (result?.data?.success !== false) {
-        toast.success("user Created");
+        toast.success("admin Created");
         // reset form
         reset();
         // redirect to users page
         setTimeout(() => {
-          router.push("/admin/management/users");
+          router.push("/super_admin/management/admins");
         }, 1000);
       }
     } catch (e) {
@@ -82,7 +82,7 @@ const AddNewAdmin = () => {
           <div className="flex justify-center items-center flex-1 new-user-banner relative min-h-[300px]">
             <div className="my-10 z-[1000]">
               <h2 className="text-4xl font-semibold text-white">Add New</h2>
-              <h2 className="text-4xl font-semibold text-white">Person</h2>
+              <h2 className="text-4xl font-semibold text-white">Admin</h2>
               <div className="flex items-center gap-1 group cursor-pointer">
                 <Link
                   href="/super_admin/management/admins"
