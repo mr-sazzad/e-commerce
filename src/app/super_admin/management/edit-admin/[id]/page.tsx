@@ -26,8 +26,8 @@ const EditAdmin = () => {
   const { id } = useParams();
   const { handleSubmit, register } = useForm();
 
-  const { data: admin, isLoading } = useGetCurrentUserQuery(id);
-  const [updateSingleUser] = useUpdateSingletUserMutation();
+  const { data: admin, isLoading: isAdminLoading } = useGetCurrentUserQuery(id);
+  const [updateSingleUser, { isLoading }] = useUpdateSingletUserMutation();
 
   const [profileImageName, setProfileImageName] = useState("");
   const [coverImageName, setCoverImageName] = useState("");
@@ -88,7 +88,7 @@ const EditAdmin = () => {
     }
   };
 
-  if (isLoading) {
+  if (isAdminLoading) {
     return <Loading />;
   }
 
