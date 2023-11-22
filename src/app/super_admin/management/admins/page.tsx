@@ -8,9 +8,15 @@ import { useGetAllAdminsQuery } from "@/redux/api/users/userApi";
 import Link from "next/link";
 import Loading from "@/app/Loading";
 import AdminCard from "@/components/super_admin/AdminCard";
+import { getUserFromLocalStorage } from "@/helpers/jwt";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 const WatchManagement = () => {
+  const router = useRouter();
   const { data: admins, isLoading } = useGetAllAdminsQuery(undefined);
+  const currentUser = getUserFromLocalStorage() as any;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [size, setSize] = useState<number | null>(null);
@@ -27,6 +33,11 @@ const WatchManagement = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  if (currentUser?.role !== "super_admin") {
+    toast.error("You are not allowed");
+    router.push("/sign-in");
+  }
 
   if (isLoading) {
     return <Loading />;
@@ -119,4 +130,6 @@ const WatchManagement = () => {
   );
 };
 
-export default WatchManagement;
+export default dynamic(() => Promise.resolve(WatchManagement), {
+  ssr: false,
+});

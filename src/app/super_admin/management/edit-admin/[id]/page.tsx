@@ -7,7 +7,7 @@ import {
   useUpdateSingletUserMutation,
 } from "@/redux/api/users/userApi";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import GenderSelect from "@/components/admin/GenderSelect";
@@ -21,10 +21,14 @@ import { BiSolidHomeSmile } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import { SiStatuspal } from "react-icons/si";
 import { LiaPagelines } from "react-icons/lia";
+import { getUserFromLocalStorage } from "@/helpers/jwt";
+import dynamic from "next/dynamic";
 
 const EditAdmin = () => {
   const { id } = useParams();
+  const router = useRouter();
   const { handleSubmit, register } = useForm();
+  const currentUser = getUserFromLocalStorage() as any;
 
   const { data: admin, isLoading: isAdminLoading } = useGetCurrentUserQuery(id);
   const [updateSingleUser, { isLoading }] = useUpdateSingletUserMutation();
@@ -38,6 +42,11 @@ const EditAdmin = () => {
       setGender(selectedOption.value);
     }
   };
+
+  if (currentUser?.role !== "super_admin") {
+    toast.error("You are not allowed");
+    router.push("/sign-in");
+  }
 
   const onSubmit = async (data: any) => {
     let profileImage = "";
@@ -455,4 +464,6 @@ const EditAdmin = () => {
   );
 };
 
-export default EditAdmin;
+export default dynamic(() => Promise.resolve(EditAdmin), {
+  ssr: false,
+});

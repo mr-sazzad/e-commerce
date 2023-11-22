@@ -3,8 +3,10 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import GenderSelect from "@/components/admin/GenderSelect";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
+import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useUserSignUpMutation } from "@/redux/api/users/userApi";
 import { OptionType } from "@/types";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -16,6 +18,7 @@ import { BsArrowRightShort } from "react-icons/bs";
 const AddNewAdmin = () => {
   const router = useRouter();
   const [gender, setGender] = useState("");
+  const currentUser = getUserFromLocalStorage() as any;
   const { handleSubmit, register, reset } = useForm();
 
   const [userSignUp, { isLoading }] = useUserSignUpMutation();
@@ -28,6 +31,11 @@ const AddNewAdmin = () => {
       setGender(selectedOption.value);
     }
   };
+
+  if (currentUser?.role !== "super_admin") {
+    toast.error("You are not allowed");
+    router.push("/sign-in");
+  }
 
   const onSubmit = async (data: any) => {
     let coverImage = "";
@@ -356,4 +364,6 @@ const AddNewAdmin = () => {
   );
 };
 
-export default AddNewAdmin;
+export default dynamic(() => Promise.resolve(AddNewAdmin), {
+  ssr: false,
+});
