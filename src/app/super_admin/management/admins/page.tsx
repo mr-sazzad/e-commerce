@@ -72,8 +72,8 @@ const WatchManagement = () => {
 
             <div className="flex justify-center gap-5 flex-col sm:flex-row sm:flex-wrap w-full">
               {admins && admins.length > 0 ? (
-                currentUsers.map((user: any) => (
-                  <AdminCard key={user.id} {...user} />
+                currentUsers.map((admin: any) => (
+                  <AdminCard key={admin.id} {...admin} />
                 ))
               ) : (
                 <div className="flex justify-center items-center text-gray-400">
