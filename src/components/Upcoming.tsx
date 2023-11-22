@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import UpcomingCard from "./UpcomingCard";
-import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
+import { useGetAllUpcomingWatchesQuery } from "@/redux/api/watches/watchApi";
 import Loading from "@/app/Loading";
 
 const Upcoming = () => {
-  const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);
+  const { data: watches, isLoading } = useGetAllUpcomingWatchesQuery(undefined);
 
   if (isLoading) {
     return <Loading />;

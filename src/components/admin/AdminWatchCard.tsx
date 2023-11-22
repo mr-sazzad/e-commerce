@@ -17,7 +17,6 @@ const AdminWatchCard = (watch: AdminWatch) => {
   const handleWatchDelete = async (watch: AdminWatch) => {
     try {
       // const result = await deleteSingleWatch(watch.id);
-      // console.log(result);
       toast.success("Watch deleted successfully");
     } catch (err) {
       toast.error("something went wrong");
@@ -27,7 +26,6 @@ const AdminWatchCard = (watch: AdminWatch) => {
   //   update status
   const handleStatusChange = async (watch: AdminWatch) => {
     try {
-      console.log("hello how are you");
       const newStatus =
         watch.status === "Available" ? "Unavailable" : "Available";
       const result = await updateSingleWatch({
@@ -35,7 +33,6 @@ const AdminWatchCard = (watch: AdminWatch) => {
         status: newStatus,
       });
 
-      console.log(result, "update result");
     } catch (err) {
       // handle errors
     }

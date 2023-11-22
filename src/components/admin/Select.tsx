@@ -11,6 +11,7 @@ interface MySelectProps {
 const options: OptionType[] = [
   { value: "Available", label: "✅ Available" },
   { value: "Unavailable", label: "❎ Un-Available" },
+  { value: "Upcoming", label: "🚀 Upcoming" },
 ];
 
 const MySelect = ({ onSelectChange }: MySelectProps) => {

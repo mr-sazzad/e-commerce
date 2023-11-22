@@ -2,12 +2,14 @@
 
 import React from "react";
 import RecentCard from "./RecentCard";
-import { useGetAllWatchesQuery } from "@/redux/api/watches/watchApi";
+import {
+  useGetAllRecentWatchesQuery,
+  useGetAllWatchesQuery,
+} from "@/redux/api/watches/watchApi";
 import Loading from "@/app/Loading";
 
 const Recent = () => {
-  const { data: watches, isLoading } = useGetAllWatchesQuery(undefined);
-  // console.log(watches, "watches");
+  const { data: watches, isLoading } = useGetAllRecentWatchesQuery(undefined);
 
   if (isLoading) {
     return <Loading />;

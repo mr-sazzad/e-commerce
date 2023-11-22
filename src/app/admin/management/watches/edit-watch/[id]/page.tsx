@@ -26,7 +26,6 @@ const EditWatch = () => {
   const { data: watch, isLoading } = useGetSingleWatchQuery(id);
   const [updateSingleWatch] = useUpdateSingleWatchMutation();
 
-  console.log(watch, "watch");
 
   const handleSelectChange = (selectedOption: OptionType | null) => {
     if (selectedOption) {

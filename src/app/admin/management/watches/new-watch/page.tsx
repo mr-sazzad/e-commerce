@@ -2,8 +2,10 @@
 import BreadCrumb from "@/components/BreadCrumb";
 import MySelect from "@/components/admin/Select";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
+import { getUserFromLocalStorage } from "@/helpers/jwt";
 import { useUploadWatchMutation } from "@/redux/api/watches/watchApi";
 import { OptionType } from "@/types";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -14,6 +16,7 @@ import { BsArrowRightShort } from "react-icons/bs";
 
 const NewWatch = () => {
   const router = useRouter();
+  const currentUser = getUserFromLocalStorage() as any;
   const [watchImage, setWatchImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Available");
@@ -21,6 +24,11 @@ const NewWatch = () => {
   const [uploadWatch] = useUploadWatchMutation();
 
   const { handleSubmit, register } = useForm();
+
+  if (currentUser?.role !== "admin") {
+    toast.error("you are not allowed for access this page");
+    router.push("/sign-in");
+  }
 
   const handleSelectChange = (selectedOption: OptionType | null) => {
     if (selectedOption) {
@@ -59,7 +67,6 @@ const NewWatch = () => {
         }, 500);
       }
     } catch (e) {
-      console.log("Error ", e);
       setLoading(false);
       toast.error("something went wrong");
     }
@@ -202,4 +209,6 @@ const NewWatch = () => {
   );
 };
 
-export default NewWatch;
+export default dynamic(() => Promise.resolve(NewWatch), {
+  ssr: false,
+});

@@ -16,8 +16,6 @@ const WatchManagement = () => {
   const [size, setSize] = useState<number | null>(null);
   let itemsPerPage = size || 12;
 
-  console.log(size, "size");
-
   // Logic to get current items based on the selected page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

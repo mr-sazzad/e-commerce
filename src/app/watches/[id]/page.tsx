@@ -24,8 +24,6 @@ const SingleWatchPage = () => {
     return <Loading />;
   }
 
-  console.log(reviews, "all reviews");
-
   return (
     <div>
       <BreadCrumb

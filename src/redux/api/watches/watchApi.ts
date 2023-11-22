@@ -11,6 +11,7 @@ const watchApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.watches],
     }),
+
     getAllWatches: build.query({
       query: () => ({
         url: "/watches",
@@ -18,6 +19,23 @@ const watchApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.watches],
     }),
+
+    getAllUpcomingWatches: build.query({
+      query: () => ({
+        url: "/watches/upcoming",
+        method: "GET",
+      }),
+      providesTags: [tagTypes.watches],
+    }),
+
+    getAllRecentWatches: build.query({
+      query: () => ({
+        url: "/watches/recent",
+        method: "GET",
+      }),
+      providesTags: [tagTypes.watches],
+    }),
+
     getSingleWatch: build.query({
       query: (id) => ({
         url: `/watches/${id}`,
@@ -25,6 +43,7 @@ const watchApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.watches],
     }),
+
     updateSingleWatch: build.mutation({
       query: ({ id, ...data }) => ({
         url: `/watches/${id}`,
@@ -33,6 +52,7 @@ const watchApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.watches],
     }),
+
     deleteSingleWatch: build.mutation({
       query: (id) => ({
         url: `/watches/${id}`,
@@ -49,4 +69,6 @@ export const {
   useGetSingleWatchQuery,
   useUpdateSingleWatchMutation,
   useDeleteSingleWatchMutation,
+  useGetAllUpcomingWatchesQuery,
+  useGetAllRecentWatchesQuery,
 } = watchApi;

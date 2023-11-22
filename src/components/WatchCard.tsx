@@ -41,7 +41,6 @@ const WatchCard = (watch: any) => {
     );
   }, [wishlists, watch.id]);
 
-  console.log(exist, "exist");
 
   if (isLoading) {
     return <Loading />;
@@ -61,7 +60,6 @@ const WatchCard = (watch: any) => {
             const wishlistId = wishlist.id;
             const result = await removeSingleWishlist(wishlistId);
             setExist(false);
-            console.log(result, "removeWishlist result");
             return true;
           }
           return false;

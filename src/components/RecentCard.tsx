@@ -24,7 +24,7 @@ const RecentCard = (watch: any) => {
   const [addToWishlist] = useAddToWishlistMutation();
   const [removeSingleWishlist] = useRemoveSingleWishlistMutation();
   const { data: wishlists, isLoading } = useGetAllWishlistsQuery(
-    currentUser.id
+    currentUser?.id
   );
 
   const [exist, setExist] = useState(false);
@@ -34,8 +34,6 @@ const RecentCard = (watch: any) => {
       wishlists?.some((wishlist: any) => wishlist?.watchId === watch.id)
     );
   }, [wishlists, watch.id]);
-
-  console.log(exist, "exist");
 
   if (isLoading) {
     return <Loading />;
@@ -55,7 +53,6 @@ const RecentCard = (watch: any) => {
             const wishlistId = wishlist.id;
             const result = await removeSingleWishlist(wishlistId);
             setExist(false);
-            console.log(result, "removeWishlist result");
             return true;
           }
           return false;
