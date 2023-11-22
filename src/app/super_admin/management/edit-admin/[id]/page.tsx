@@ -32,8 +32,6 @@ const EditAdmin = () => {
   const [coverImageName, setCoverImageName] = useState("");
   const [gender, setGender] = useState("");
 
-  console.log(gender, "gender");
-
   const handleSelectChange = (selectedOption: OptionType | null) => {
     if (selectedOption) {
       setGender(selectedOption.value);
@@ -59,7 +57,6 @@ const EditAdmin = () => {
         phone: data.phone || admin?.phone,
         gender: gender || admin?.gender,
         age: data.age || admin?.age,
-        role: "admin",
         address: data.address || admin?.address,
       };
 
