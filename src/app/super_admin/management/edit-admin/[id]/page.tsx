@@ -13,13 +13,14 @@ import { useForm } from "react-hook-form";
 import GenderSelect from "@/components/admin/GenderSelect";
 import toast from "react-hot-toast";
 import { UploadImageToImageBB } from "@/helpers/imageUpload";
+import { OptionType } from "@/types";
 
 import { PiGenderMaleFill } from "react-icons/pi";
 import { BsFillPhoneFill } from "react-icons/bs";
 import { BiSolidHomeSmile } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import { SiStatuspal } from "react-icons/si";
-import { OptionType } from "@/types";
+import { LiaPagelines } from "react-icons/lia";
 
 const EditAdmin = () => {
   const { id } = useParams();
@@ -143,8 +144,8 @@ const EditAdmin = () => {
                 </p>
 
                 <p className="flex gap-1 items-center my-1">
-                  <PiGenderMaleFill className="text-gray-400" /> {admin?.age}{" "}
-                  Years Old
+                  <LiaPagelines className="text-gray-400" /> {admin?.age} Years
+                  Old
                 </p>
 
                 <p className="flex gap-1 items-center my-1">
