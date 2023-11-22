@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 
 import { BsArrowRightShort } from "react-icons/bs";
 
-const AddNewUser = () => {
+const AddNewAdmin = () => {
   const router = useRouter();
   const [gender, setGender] = useState("");
   const { handleSubmit, register, reset } = useForm();
@@ -45,6 +45,7 @@ const AddNewUser = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        role: "admin",
         gender: gender || "NotSet",
         phone: data.phone || "",
         image: profileImage || "",
@@ -84,10 +85,10 @@ const AddNewUser = () => {
               <h2 className="text-4xl font-semibold text-white">Person</h2>
               <div className="flex items-center gap-1 group cursor-pointer">
                 <Link
-                  href="/admin/management/users"
+                  href="/super_admin/management/admins"
                   className="text-white hover:underline"
                 >
-                  Go To Users
+                  Go To Admins
                 </Link>
                 <BsArrowRightShort className="text-white group-hover:translate-x-1 transition-all duration-300" />
               </div>
@@ -95,7 +96,7 @@ const AddNewUser = () => {
           </div>
           <div className="flex-1">
             <h2 className="text-center font-semibold text-3xl mb-8">
-              New User
+              New Admin
             </h2>
 
             <form
@@ -345,7 +346,7 @@ const AddNewUser = () => {
                 "
                 type="submit"
               >
-                Add New User
+                Add New Admin
               </button>
             </form>
           </div>
@@ -355,4 +356,4 @@ const AddNewUser = () => {
   );
 };
 
-export default AddNewUser;
+export default AddNewAdmin;

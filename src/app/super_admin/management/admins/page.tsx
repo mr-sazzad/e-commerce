@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SiAmazoncloudwatch } from "react-icons/si";
 import PageSelect from "@/components/admin/PageSelect";
-import UserCard from "@/components/admin/UserCard";
 import { useGetAllAdminsQuery } from "@/redux/api/users/userApi";
 import Link from "next/link";
 import Loading from "@/app/Loading";
+import AdminCard from "@/components/super_admin/AdminCard";
 
 const WatchManagement = () => {
   const { data: admins, isLoading } = useGetAllAdminsQuery(undefined);
@@ -39,7 +39,7 @@ const WatchManagement = () => {
       <div className="max-w-[1200px] mx-auto mt-10">
         <div className="px-[30px] lg:px-[50px]">
           <div className="flex justify-end">
-            <Link href="/super_admin/management/admins/add-user">
+            <Link href="/super_admin/management/add-admin">
               <button
                 className="
                 bg-gray-700 
@@ -55,7 +55,7 @@ const WatchManagement = () => {
                 py-[5px]
             "
               >
-                Add New User
+                Add New Admin
               </button>
             </Link>
           </div>
@@ -73,7 +73,7 @@ const WatchManagement = () => {
             <div className="flex justify-center gap-5 flex-col sm:flex-row sm:flex-wrap w-full">
               {admins && admins.length > 0 ? (
                 currentUsers.map((user: any) => (
-                  <UserCard key={user.id} {...user} />
+                  <AdminCard key={user.id} {...user} />
                 ))
               ) : (
                 <div className="flex justify-center items-center text-gray-400">
