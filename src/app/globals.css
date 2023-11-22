@@ -141,7 +141,7 @@
   background-clip: padding-box;
 }
 
-/* Style your items */
+/* Style masonry items */
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
   margin-bottom: 10px;
   border: 1px solid lightgrey;
