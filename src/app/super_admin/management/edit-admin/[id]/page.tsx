@@ -183,19 +183,24 @@ const EditAdmin = () => {
 
                   <button
                     className={`
-                      px-5 
-                      py-1 
-                      transition-all 
-                      duration-300
-                      ${
-                        admin?.isBanned
-                          ? "bg-green-500 hover:bg-green-600 text-white"
-                          : "bg-red-500 hover:bg-red-700 text-white"
-                      }
-                    `}
+                                px-5 
+                                py-1 
+                                transition-all 
+                                duration-300
+                                ${
+                                  admin?.isBanned
+                                    ? "bg-green-500 hover:bg-green-600 text-white"
+                                    : "bg-red-500 hover:bg-red-700 text-white"
+                                }
+                              `}
                     onClick={() => handleChangeStatus(admin)}
+                    disabled={isLoading}
                   >
-                    {admin?.isBanned ? "Unbanned This admin" : "Ban This admin"}
+                    {isLoading
+                      ? "Loading..."
+                      : admin?.isBanned
+                      ? "Unban This admin"
+                      : "Ban This admin"}
                   </button>
                 </div>
               </div>
@@ -440,7 +445,7 @@ const EditAdmin = () => {
                 "
                 type="submit"
               >
-                Update This Admin
+                {isLoading ? "Loading ..." : " Update This Admin"}
               </button>
             </form>
           </div>
