@@ -132,21 +132,31 @@ const EditAdmin = () => {
                 <p className="font-semibold text-lg text-gray-500">
                   {admin?.name}
                 </p>
-                <p className="flex gap-1 items-center">
+
+                <p className="flex gap-1 items-center my-1">
                   <MdEmail className="text-gray-400" />
                   {admin?.email}
                 </p>
-                <p className="flex gap-1 items-center">
+
+                <p className="flex gap-1 items-center my-1">
                   <PiGenderMaleFill className="text-gray-400" /> {admin?.gender}
                 </p>
-                <p className="flex gap-1 items-center">
+
+                <p className="flex gap-1 items-center my-1">
+                  <PiGenderMaleFill className="text-gray-400" /> {admin?.age}{" "}
+                  Years Old
+                </p>
+
+                <p className="flex gap-1 items-center my-1">
                   <BsFillPhoneFill className="text-gray-400" /> {admin?.phone}
                 </p>
-                <p className="flex gap-1 items-center">
+
+                <p className="flex gap-1 items-center my-1">
                   <BiSolidHomeSmile className="text-gray-400" />
                   {admin?.address}
                 </p>
-                <p className="flex gap-1 items-center">
+
+                <p className="flex gap-1 items-center my-1">
                   <SiStatuspal className="text-gray-400" />
                   {admin?.isBanned ? (
                     <p className="bg-red-500 px-3 rounded-full text-white">
@@ -242,6 +252,7 @@ const EditAdmin = () => {
                   <input
                     type="string"
                     {...register("phone")}
+                    defaultValue={admin?.phone}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
                 </div>
@@ -387,6 +398,7 @@ const EditAdmin = () => {
                   <input
                     type="number"
                     {...register("age")}
+                    defaultValue={admin?.age}
                     className="outline-none border border-gray-300 px-3 py-[5px]"
                   />
                 </div>
