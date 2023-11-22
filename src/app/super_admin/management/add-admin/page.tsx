@@ -18,7 +18,7 @@ const AddNewAdmin = () => {
   const [gender, setGender] = useState("");
   const { handleSubmit, register, reset } = useForm();
 
-  const [userSignUp] = useUserSignUpMutation();
+  const [userSignUp, { isLoading }] = useUserSignUpMutation();
 
   const [profileImageName, setProfileImageName] = useState("");
   const [coverImageName, setCoverImageName] = useState("");
@@ -346,7 +346,7 @@ const AddNewAdmin = () => {
                 "
                 type="submit"
               >
-                Add New Admin
+                {isLoading ? "Loading ..." : "Add New Admin"}
               </button>
             </form>
           </div>
