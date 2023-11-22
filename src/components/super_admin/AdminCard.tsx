@@ -9,19 +9,19 @@ import toast from "react-hot-toast";
 import { LiaEdit } from "react-icons/lia";
 import { MdRotateRight } from "react-icons/md";
 
-const AdminCard = (user: any) => {
+const AdminCard = (admin: any) => {
   const [updateSingleUser] = useUpdateSingletUserMutation();
 
-  const handleChangeStatus = async (user: any) => {
+  const handleChangeStatus = async (admin: any) => {
     try {
-      const userId = user?.id;
+      const adminId = admin?.id;
 
       const requestedData = {
-        isBanned: !user?.isBanned,
+        isBanned: !admin?.isBanned,
       };
 
       const result: any = await updateSingleUser({
-        id: userId,
+        id: adminId,
         ...requestedData,
       });
 
@@ -38,7 +38,7 @@ const AdminCard = (user: any) => {
       <div className="relative">
         <div className="h-[70px] w-full relative">
           <Image
-            src={user?.coverImage ? user?.coverImage : "/assets/cover.jpg"}
+            src={admin?.coverImage ? admin?.coverImage : "/assets/cover.jpg"}
             alt="cover-image"
             fill
             objectFit="cover"
@@ -47,7 +47,7 @@ const AdminCard = (user: any) => {
         <div className="absolute -bottom-6 left-2">
           <div className="relative w-[60px] h-[60px]">
             <Image
-              src={user?.image ? user?.image : "/assets/placeholder.png"}
+              src={admin?.image ? admin?.image : "/assets/placeholder.png"}
               alt="profile-image"
               fill
               objectFit="contain"
@@ -58,10 +58,10 @@ const AdminCard = (user: any) => {
       </div>
       <div className="p-3">
         <p className="font-semibold mt-5 border-l-2 pl-1 border-gray-400">
-          {user?.name}
+          {admin?.name}
         </p>
-        <p className="">{user?.email}</p>
-        {!user?.isBanned ? (
+        <p className="">{admin?.email}</p>
+        {!admin?.isBanned ? (
           <span className="bg-green-500 px-3 rounded-full py-[1px] text-white text-sm">
             Un-Banned
           </span>
@@ -72,7 +72,7 @@ const AdminCard = (user: any) => {
         )}
       </div>
       <div className="mt-4 flex justify-center gap-4 mb-3">
-        <Link href={`/admin/management/users/edit-user/${user.id}`}>
+        <Link href={`/super_admin/management/edit-admin/${admin.id}`}>
           <button
             className="
             group
@@ -92,7 +92,7 @@ const AdminCard = (user: any) => {
           </button>
         </Link>
         <button
-          onClick={() => handleChangeStatus(user)}
+          onClick={() => handleChangeStatus(admin)}
           className="
             group
             px-5 
