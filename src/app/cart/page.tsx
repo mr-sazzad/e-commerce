@@ -17,6 +17,7 @@ import { setToLocalStorage } from "@/helpers/localStorage";
 import { BiSolidQuoteAltLeft } from "react-icons/bi";
 import { HiMiniArrowSmallRight } from "react-icons/hi2";
 import { AiFillHeart } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const stripeKey =
   "pk_test_51O7I6YSHcqDbqznpElzunzfMsBFHFu6tog3M1UGhXBb5DcqO15sSsbshWIewrqyLC7kOVmpb0aP2L2iFVwJ672ef00llYTcNGY";
@@ -42,7 +43,7 @@ const Cart = () => {
     }
   }, [cartProducts, currentUser]);
 
-  if (!currentUser || isLoading) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -63,13 +64,11 @@ const Cart = () => {
 
       if (result) {
         setToLocalStorage("sessionId", result?.data?.sessionId);
-        setTimeout(async () => {
-          router.push(result?.data?.sessionUrl);
-          await removeAllFromCart(currentUser?.id);
-        }, 500);
+        router.push(result?.data?.sessionUrl);
+        await removeAllFromCart(currentUser?.id);
       }
     } catch (err) {
-      console.error(err, "payment error");
+      toast.error("something went wrong");
     }
   };
 
