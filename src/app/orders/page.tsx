@@ -9,26 +9,38 @@ import BreadCrumb from "@/components/BreadCrumb";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 
 const Orders = () => {
   const currentUser = getUserFromLocalStorage() as any;
   const router = useRouter();
 
-  if (!currentUser) {
-    router.push("/sign-in");
-  }
+  useEffect(() => {
+    const redirectUser = () => {
+      if (!currentUser) {
+        router.push("/sign-in");
+      }
+    };
 
-  const { data: orders, isLoading } = useGetAllPaymentsQuery(currentUser?.id);
+    const redirectTimeout = setTimeout(redirectUser, 500);
+
+    return () => clearTimeout(redirectTimeout);
+  }, [currentUser, router]);
+
+  const { data: orders, isLoading: isOrdersLoading } = useGetAllPaymentsQuery(
+    currentUser?.id
+  );
   const { data: user, isLoading: isUserLoading } = useGetCurrentUserQuery(
     currentUser?.id
   );
 
-  if (!user) {
-    router.push("/sign-in");
+  if (isOrdersLoading || isUserLoading) {
+    return <Loading />;
   }
 
-  if (isLoading || isUserLoading) {
-    return <Loading />;
+  if (!user) {
+    router.push("/sign-in");
+    return null;
   }
 
   return (
