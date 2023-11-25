@@ -41,7 +41,7 @@ const Cart = () => {
     if (cartProducts && cartProducts.length <= 0) {
       setDisable(true);
     }
-  }, [cartProducts, currentUser]);
+  }, [cartProducts, currentUser, router]);
 
   if (isLoading) {
     return <Loading />;
