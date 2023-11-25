@@ -64,8 +64,8 @@ const Cart = () => {
 
       if (result) {
         setToLocalStorage("sessionId", result?.data?.sessionId);
-        router.push(result?.data?.sessionUrl);
         await removeAllFromCart(currentUser?.id);
+        router.push(result?.data?.sessionUrl);
       }
     } catch (err) {
       toast.error("something went wrong");
