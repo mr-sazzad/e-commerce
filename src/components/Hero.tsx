@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
