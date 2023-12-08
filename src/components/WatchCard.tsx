@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-import { AiOutlineHeart } from "react-icons/ai";
 import { ImEye } from "react-icons/im";
 import AddToCart from "./buttons/AddToCart";
 import {
@@ -30,7 +29,7 @@ const WatchCard = (watch: any) => {
   const [addToWishlist] = useAddToWishlistMutation();
   const [removeSingleWishlist] = useRemoveSingleWishlistMutation();
   const { data: wishlists, isLoading } = useGetAllWishlistsQuery(
-    currentUser.id
+    currentUser?.id
   );
 
   const [exist, setExist] = useState(false);
@@ -39,8 +38,7 @@ const WatchCard = (watch: any) => {
     setExist(
       wishlists?.some((wishlist: any) => wishlist?.watchId === watch.id)
     );
-  }, [wishlists, watch.id]);
-
+  }, [wishlists, watch.id, router, currentUser]);
 
   if (isLoading) {
     return <Loading />;
@@ -49,16 +47,18 @@ const WatchCard = (watch: any) => {
   const handleWishlist = async (watch: any) => {
     try {
       if (!currentUser) {
-        toast.error("something went wrong");
-        router.push("/sign-in");
-        return;
+        setTimeout(() => {
+          toast.error("something went wrong");
+          router.push("/sign-in");
+          return;
+        }, 200);
       }
 
       const isExists = await Promise.all(
         wishlists.map(async (wishlist: any) => {
           if (wishlist.watchId === watch.id) {
             const wishlistId = wishlist.id;
-            const result = await removeSingleWishlist(wishlistId);
+            await removeSingleWishlist(wishlistId);
             setExist(false);
             return true;
           }

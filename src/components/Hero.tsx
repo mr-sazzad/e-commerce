@@ -1,10 +1,12 @@
-import Image from "next/image";
+"use client";
+
 import React from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 const HeroSection = () => {
+  const router = useRouter();
   return (
     <div className="max-w-[1200px] mx-auto relative">
       <div
@@ -44,8 +46,7 @@ const HeroSection = () => {
                 Where Time Comes Alive: Shop the Latest Watch Trends
               </h1>
               <div>
-                <Link
-                  href="/watches"
+                <button
                   className="
                       flex 
                       gap-3 
@@ -61,10 +62,11 @@ const HeroSection = () => {
                       transition-all 
                       duration-300
                     "
+                  onClick={() => router.push("/watches")}
                 >
                   <AiOutlineShoppingCart />
                   <span className="ml-2">Shop Now</span>
-                </Link>
+                </button>
               </div>
             </div>
           </div>
