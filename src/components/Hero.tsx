@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -43,7 +44,8 @@ const HeroSection = () => {
                 Where Time Comes Alive: Shop the Latest Watch Trends
               </h1>
               <div>
-                <button
+                <Link
+                  href="/watches"
                   className="
                       flex 
                       gap-3 
@@ -62,7 +64,7 @@ const HeroSection = () => {
                 >
                   <AiOutlineShoppingCart />
                   <span className="ml-2">Shop Now</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
