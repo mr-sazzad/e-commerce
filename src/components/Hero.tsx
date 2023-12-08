@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
@@ -43,7 +44,8 @@ const HeroSection = () => {
                 Where Time Comes Alive: Shop the Latest Watch Trends
               </h1>
               <div>
-                <button
+                <Link
+                  href="/watches"
                   className="
                       flex 
                       gap-3 
