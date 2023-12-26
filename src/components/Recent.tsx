@@ -2,10 +2,7 @@
 
 import React from "react";
 import RecentCard from "./RecentCard";
-import {
-  useGetAllRecentWatchesQuery,
-  useGetAllWatchesQuery,
-} from "@/redux/api/watches/watchApi";
+import { useGetAllRecentWatchesQuery } from "@/redux/api/watches/watchApi";
 import Loading from "@/app/Loading";
 
 const Recent = () => {
@@ -22,9 +19,10 @@ const Recent = () => {
       </h2>
       <div className="flex justify-center">
         <div className="flex flex-col sm:flex-row flex-wrap gap-5 justify-center">
-          {watches?.map((watch: any) => (
-            <RecentCard key={watch.title} {...watch} />
-          ))}
+          {watches &&
+            watches.map((watch: any) => (
+              <RecentCard key={watch.title} {...watch} />
+            ))}
         </div>
       </div>
     </div>

@@ -19,8 +19,19 @@ const reviewsApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.review],
     }),
+
+    getLatestReviews: build.query({
+      query: () => ({
+        url: `/reviews/latest`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.review],
+    }),
   }),
 });
 
-export const { useCreateSingleReviewMutation, useGetAllReviewsQuery } =
-  reviewsApi;
+export const {
+  useCreateSingleReviewMutation,
+  useGetAllReviewsQuery,
+  useGetLatestReviewsQuery,
+} = reviewsApi;

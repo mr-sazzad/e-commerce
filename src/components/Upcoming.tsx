@@ -18,9 +18,10 @@ const Upcoming = () => {
       </h2>
       <div className="flex justify-center">
         <div className="flex flex-col sm:flex-row flex-wrap gap-5 justify-center">
-          {watches?.map((watch: any) => (
-            <UpcomingCard key={watch.title} {...watch} />
-          ))}
+          {watches &&
+            watches?.map((watch: any) => (
+              <UpcomingCard key={watch.title} {...watch} />
+            ))}
         </div>
       </div>
     </div>

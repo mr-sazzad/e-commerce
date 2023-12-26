@@ -1,4 +1,5 @@
 import HeroSection from "@/components/Hero";
+import LatestReviews from "@/components/LatestReviews";
 import Promotion from "@/components/Promotion";
 import Recent from "@/components/Recent";
 import Upcoming from "@/components/Upcoming";
@@ -10,6 +11,7 @@ export default function Home() {
       <Recent />
       <Promotion />
       <Upcoming />
+      <LatestReviews />
     </div>
   );
 }

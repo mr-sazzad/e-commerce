@@ -5,7 +5,7 @@ import { tagTypeLists } from "./tagTypes";
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery({
-    baseUrl: "https://watch-shop-site.vercel.app/api/v1",
+    baseUrl: "watch-shop-site.vercel.app/api/v1",
   }),
   endpoints: (builder) => ({}),
   //  result cashing
