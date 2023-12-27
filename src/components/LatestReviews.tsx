@@ -14,11 +14,9 @@ const LatestReviews = () => {
     return <Loading />;
   }
 
-  console.log(reviews, "reviews");
-
   return (
-    <div className="max-w-[1200px] mx-auto relative">
-      <h2 className="md:text-3xl sm:text-2xl text-xl font-semibold text-center text-gray-600">
+    <div className="max-w-[1200px] mx-auto relative md:px-[50px] px-[30px]">
+      <h2 className="md:text-3xl sm:text-2xl text-xl font-semibold text-center text-gray-60 text-gray-600">
         Our Customer Says
       </h2>
       <Masonry

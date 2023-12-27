@@ -32,7 +32,7 @@ const SingleWatchPage = () => {
         redirectTo="Watches"
         current="Watch Details"
       />
-      <div className="max-w-[1300px] mx-auto px-[30px] lg:px-[50px]">
+      <div className="max-w-[1200px] mx-auto px-[30px] lg:px-[50px]">
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row gap-5 mt-[100px] relative">
             <div className="relative w-full md:h-[300px] sm:h-[260px] h-[240px] flex-shrink-0 md:flex-1">

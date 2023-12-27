@@ -70,8 +70,8 @@ export const NavbarItems = (role: string) => {
     },
     {
       label: <span>Manage Content</span>,
-      href: `/${role}/management/blog`,
-      key: `/${role}/management/blog`,
+      href: `/${role}/management/blogs`,
+      key: `/${role}/management/blogs`,
     },
     {
       label: <span>profile</span>,

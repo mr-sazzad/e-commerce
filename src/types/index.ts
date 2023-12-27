@@ -47,3 +47,11 @@ export interface OptionType {
   value: string;
   label: string;
 }
+
+export interface IBlog {
+  id: string;
+  title: string;
+  content: string;
+  image: string;
+  createdAt: string;
+}

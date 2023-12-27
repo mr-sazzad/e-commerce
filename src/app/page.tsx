@@ -1,3 +1,5 @@
+import SecondPromotion from "@/components/2ndPromotion";
+import BlogSection from "@/components/BlogSection";
 import HeroSection from "@/components/Hero";
 import LatestReviews from "@/components/LatestReviews";
 import Promotion from "@/components/Promotion";
@@ -12,6 +14,8 @@ export default function Home() {
       <Promotion />
       <Upcoming />
       <LatestReviews />
+      <SecondPromotion />
+      <BlogSection />
     </div>
   );
 }

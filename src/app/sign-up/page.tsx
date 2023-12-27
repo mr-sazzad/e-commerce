@@ -50,7 +50,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="max-w-[1300px] mx-auto">
+    <div className="max-w-[1200px] mx-auto">
       <div className="h-[150px] w-full">
         <div className="flex justify-center items-center h-full w-full">
           <div>

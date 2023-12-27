@@ -90,7 +90,7 @@ const WatchCard = (watch: any) => {
       className={`flex flex-row items-center w-full gap-3 relative border border-gray-200 mb-10 hover:shadow transition ${
         active ? "flex-col w-[260px] sm:w-[240px]" : ""
       }`}
-      onMouseEnter={() => setHovered(true)}
+      onMouseOver={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div className="p-1 relative group">
@@ -106,27 +106,32 @@ const WatchCard = (watch: any) => {
             objectFit="contain"
             className="p-2"
           />
-          {hovered && (
-            <div className="absolute bottom-0 w-full flex justify-center pb-4 transition duration-300 ease-in-out">
-              <AddToCart watch={watch} />
-              <Link
-                href={`/watches/${watch.id}`}
-                className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out hover:bg-[#9F7A49] hover:text-white"
-              >
-                <ImEye />
-              </Link>
-              <button
-                className="py-2 text-xl px-2 mx-1 transition duration-300 ease-in-out bg-white hover:bg-[#9F7A49]"
-                onClick={() => handleWishlist(watch)}
-              >
-                {exist ? (
-                  <IoMdHeart className="text-rose-700 hover:text-rose-800" />
-                ) : (
-                  <IoMdHeartEmpty className="text-[#9F7A49] hover:text-white" />
-                )}
-              </button>
-            </div>
-          )}
+
+          <div
+            className={`w-full flex justify-center pb-4 ${
+              hovered
+                ? "absolute bottom-0 transition-all duration-300 opacity-100"
+                : "absolute bottom-0 transition-all duration-300 opacity-0"
+            }`}
+          >
+            <AddToCart watch={watch} />
+            <Link
+              href={`/watches/${watch.id}`}
+              className="bg-white text-[#9F7A49] py-2 text-xl px-2 mx-1 transition duration-300 hover:bg-[#9F7A49] hover:text-white"
+            >
+              <ImEye />
+            </Link>
+            <button
+              className="py-2 text-xl px-2 mx-1 transition duration-300 bg-white hover:bg-[#9F7A49]"
+              onClick={() => handleWishlist(watch)}
+            >
+              {exist ? (
+                <IoMdHeart className="text-rose-700 hover:text-rose-800" />
+              ) : (
+                <IoMdHeartEmpty className="text-[#9F7A49] hover:text-white" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
       <div className="p-5">

@@ -60,7 +60,7 @@ const PaymentSuccess = () => {
 
   // Render the success message and button
   return (
-    <div className="max-w-[1300px] mx-auto">
+    <div className="max-w-[1200px] mx-auto">
       <div className="flex justify-center items-center h-[100vh] w-full">
         <div>
           <div>

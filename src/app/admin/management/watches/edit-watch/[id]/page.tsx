@@ -77,7 +77,7 @@ const EditWatch = () => {
         current="Edit-Watch"
         redirectTo="All-Watches"
       />
-      <div className="max-w-[1300px] mx-auto mt-10">
+      <div className="max-w-[1200px] mx-auto mt-10">
         <div className="flex flex-col md:flex-row gap-5 px-[30px] lg:px-[50px]">
           <div className="flex-1 flex justify-center items-center">
             <div className="flex flex-col">

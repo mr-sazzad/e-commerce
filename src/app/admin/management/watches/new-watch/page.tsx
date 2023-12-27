@@ -80,7 +80,7 @@ const NewWatch = () => {
         current="New-Watch"
         link="/admin/management/watches"
       />
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <div className="flex flex-col md:flex-row gap-5 my-10 px-[30px] lg:px-[50px]">
           <div className="flex justify-center items-center flex-1 new-watch-banner relative min-h-[300px]">
             <div className="my-10 z-[1000]">

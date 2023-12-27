@@ -5,7 +5,7 @@ const blogApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createBlog: build.mutation({
       query: (data) => ({
-        url: `/blogs/create-blog`,
+        url: `/blogs/create-post`,
         method: "POST",
         data,
       }),
@@ -28,9 +28,26 @@ const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.blog],
     }),
+
+    getSingleBlog: build.query({
+      query: (id) => ({
+        url: `/blogs/blog-id/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.blog],
+    }),
+
     getAllBlogs: build.query({
       query: () => ({
         url: `/blogs`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.blog],
+    }),
+
+    getLatestBlogs: build.query({
+      query: () => ({
+        url: `/blogs/latest`,
         method: "GET",
       }),
       providesTags: [tagTypes.blog],
@@ -43,4 +60,6 @@ export const {
   useDeleteBlogMutation,
   useGetAllBlogsQuery,
   useUpdateBlogMutation,
+  useGetSingleBlogQuery,
+  useGetLatestBlogsQuery
 } = blogApi;

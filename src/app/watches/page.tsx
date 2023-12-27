@@ -105,7 +105,7 @@ const Page = () => {
   return (
     <div>
       <BreadCrumb link="/" redirectTo="Home" current="Collection" />
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <div className="flex flex-col md:flex-row gap-5 px-[30px] lg:px-[50px] mt-[100px]">
           <div className="md:w-[40%] w-full">
             <div className="flex flex-col gap-5 w-full bg-gray-100 px-5 mt-5 pt-5">

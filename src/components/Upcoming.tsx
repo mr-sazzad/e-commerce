@@ -12,8 +12,8 @@ const Upcoming = () => {
   }
 
   return (
-    <div className="max-w-[1300px] mx-auto px-[30px] lg:px-[50px] mb-10">
-      <h2 className="mt-10 mb-5 text-center font-semibold text-4xl text-gray-600">
+    <div className="max-w-[1200px] mx-auto px-[30px] lg:px-[50px] mb-10">
+      <h2 className="mt-10 mb-5 text-center font-semibold md:text-3xl text-2xl text-gray-600">
         Upcoming Watches
       </h2>
       <div className="flex justify-center">

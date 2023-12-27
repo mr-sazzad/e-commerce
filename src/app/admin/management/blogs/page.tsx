@@ -5,9 +5,11 @@ import Loading from "@/app/Loading";
 import BreadCrumb from "@/components/BreadCrumb";
 import { SiAmazoncloudwatch } from "react-icons/si";
 import PageSelect from "@/components/admin/PageSelect";
-import UserCard from "@/components/admin/UserCard";
 import Link from "next/link";
 import { useGetAllBlogsQuery } from "@/redux/api/blogs/blogApi";
+import BlogCard from "@/components/BlogCard";
+import Masonry from "react-masonry-css";
+import { blogBreakpoints } from "@/constants/masonry";
 
 const Blogs = () => {
   const { data: blogs, isLoading } = useGetAllBlogsQuery(undefined);
@@ -72,9 +74,15 @@ const Blogs = () => {
 
             <div className="flex justify-center gap-5 flex-col sm:flex-row sm:flex-wrap w-full">
               {blogs && blogs.length > 0 ? (
-                currentBlogs.map((blog: any) => (
-                  <UserCard key={blog.id} {...blog} />
-                ))
+                <Masonry
+                  breakpointCols={blogBreakpoints}
+                  className="my-masonry-grid"
+                  columnClassName="my-masonry-grid_column"
+                >
+                  {currentBlogs.map((blog: any) => (
+                    <BlogCard key={blog.id} {...blog} />
+                  ))}
+                </Masonry>
               ) : (
                 <div className="flex justify-center items-center text-gray-400">
                   <div>

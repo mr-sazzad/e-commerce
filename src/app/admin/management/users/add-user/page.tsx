@@ -79,7 +79,7 @@ const AddNewUser = () => {
         redirectTo="All-Users"
         link="/admin/management/users"
       />
-      <div className="max-w-[1300px] mx-auto mt-10">
+      <div className="max-w-[1200px] mx-auto mt-10">
         <div className="flex flex-col md:flex-row gap-5 mx-[30px] lg:mx-[50px]">
           <div className="flex justify-center items-center flex-1 new-user-banner relative min-h-[300px]">
             <div className="my-10 z-[1000]">

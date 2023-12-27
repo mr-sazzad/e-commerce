@@ -4,3 +4,9 @@ export const breakpointColumnsObj = {
   750: 2,
   550: 1,
 };
+
+export const blogBreakpoints = {
+  default: 3,
+  850: 2,
+  700: 1,
+};
