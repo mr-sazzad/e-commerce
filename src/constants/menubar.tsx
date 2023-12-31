@@ -60,8 +60,8 @@ export const NavbarItems = (role: string) => {
   const AdminItems = [
     {
       label: <span>Manage User</span>,
-      href: `/${role}/management/user`,
-      key: `/${role}/management/user`,
+      href: `/${role}/management/users`,
+      key: `/${role}/management/users`,
     },
     {
       label: <span>Manage Service</span>,
