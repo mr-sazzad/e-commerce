@@ -51,7 +51,7 @@ const PaymentSuccess = () => {
     };
 
     updatePaymentStatus();
-  }, [session, updateStatus]);
+  }, [payments, session, updateStatus]);
 
   // Display loading spinner while data is being fetched or updated
   if (isUserLoading || isPaymentsLoading) {
