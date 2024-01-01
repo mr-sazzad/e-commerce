@@ -43,7 +43,7 @@ const PaymentSuccess = () => {
           );
           setTimeout(() => {
             router.push("/");
-          }, 2000);
+          }, 3000);
         } catch (error) {
           console.error("Error updating payment status:", error);
         }
@@ -51,7 +51,7 @@ const PaymentSuccess = () => {
     };
 
     updatePaymentStatus();
-  }, [payments, session, updateStatus]);
+  }, [session, updateStatus]);
 
   // Display loading spinner while data is being fetched or updated
   if (isUserLoading || isPaymentsLoading) {
