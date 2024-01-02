@@ -43,7 +43,7 @@ const PaymentSuccess = () => {
           );
           setTimeout(() => {
             router.push("/");
-          }, 3000);
+          }, 1000);
         } catch (error) {
           console.error("Error updating payment status:", error);
         }
